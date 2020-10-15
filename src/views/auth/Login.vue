@@ -22,7 +22,7 @@
     <div class="content">
       <div class="container-fluid">
         <div class="row justify-content-md-center">
-     <div class="col-md-6">
+     <div class="col-lg-5">
             <!-- general form elements -->
             <div class="card card-primary">
               <div class="card-header">
@@ -65,7 +65,7 @@
      </div>
                 <!-- /.card-body -->
                 <div class="card-footer">
-                  <button type="submit" class="btn btn-primary">Login</button>
+                  <button type="submit" class="btn btn-primary float-right">Login</button>
                     <button  class="btn btn-danger" @click="logout">Log out</button>
                 </div>
            </form>

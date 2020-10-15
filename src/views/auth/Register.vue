@@ -24,10 +24,10 @@
         <div class="row justify-content-md-center">
      <div class="col-md-6">
             <!-- general form elements -->
-            <div class="card card-primary">
-              <div class="card-header">
-                <h3 class="card-title">User Register</h3>
-              </div>
+            <div class="card card-outline card-primary">
+                <div class="card-header text-center">
+                  <a href="../../index2.html" class="h1"><b>User Register</b></a>
+             </div>
               <!-- /.card-header -->
               <!-- form start -->
              <form  @submit.prevent="users_register()">
