@@ -322,8 +322,12 @@ export default {
 }
 </script>
 <style>
+html, body {
+  font-family: 'Prompt', sans-serif;
+}
+
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: Prompt,Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;

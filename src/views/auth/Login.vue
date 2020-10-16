@@ -83,8 +83,8 @@
 <script>
 //import {HTTP} from "@/service/axios.js";
 //const env = require('@/config/env');
-import authService from '@/service/auth_service';
-const service = new authService();
+import api_service from '@/service/api_service';
+const service = new api_service();
 export default {
   data() {
     return {

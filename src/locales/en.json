@@ -11,5 +11,18 @@
     "title": "User Login",
     "btn_login": "Login",
     "regis_title":"User Register"
+  },
+  "booking": {
+    "title": "Add Booking",
+    "machine": "Machine",
+    "assing_to":"Assing to",
+    "job_title": "Job title",
+    "location": "location",
+    "hospital_name": "Hospital Name",
+    "contact_person": "Contact Person",
+    "contact_mobile": "Contact Mobile",
+    "note":"Note",
+    "reservation_date": "Reservation Date",
+    "reservation_time": "reservation_time"
   }
 }

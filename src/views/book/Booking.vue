@@ -26,7 +26,7 @@
             <!-- general form elements -->
             <div class="card card-outline card-success">
                      <div class="card-header text-center">
-                  <a href="#" class="h3"><b>Add Booking</b></a>
+                  <a href="#" class="h3"><b>{{ $t('booking.title') }}</b></a>
              </div>
             <div class="card-body">
                 <div class="row">
@@ -34,7 +34,7 @@
 
                       <!-- text input -->
                       <div class="form-group">
-                        <label>Reservation Date</label>
+                        <label>{{ $t('booking.reservation_date') }} :</label>
                           <div class="input-group date">
                          <date-picker lang="th" type="date" v-model="form.reservation_date" format="DD-MM-YYYY"></date-picker>
                           <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
@@ -44,7 +44,7 @@
                     </div>
                       <div class="col-sm-6">
                       <div class="form-group">
-                    <label>Time picker:</label>
+                    <label>{{ $t('booking.reservation_time') }} :</label>
 
                     <div class="input-group date" id="timepicker" data-target-input="nearest">
                     <date-picker lang="en" type="time" v-model="form.reservation_time" format="HH:mm"></date-picker>
@@ -58,16 +58,23 @@
             <div class="row">
                     <div class="col-sm-6">
                       <!-- text input -->
-                      <div class="form-group">
-                        <label>Matchin</label>
-                        <input type="text" class="form-control" v-model="form.machine_id" placeholder="Select Matchin">
-                      </div>
+                     <div class="form-group" data-select2-id="47">
+                  <label>{{ $t('booking.machine') }}</label>
+                      <select class="form-control" v-model="form.machine_id">
+                        <option  value="">-- select Machine --</option>
+                        <option v-for="(items, index) in machine_item" v-bind:key="index" :value="items._id" >{{items._id+" - "+items.machine_name}}</option>
+                      </select>
+
+                </div>
                     </div>
                       <div class="col-sm-6">
                       <!-- text input -->
                       <div class="form-group">
-                        <label>Agsing To</label>
-                        <input type="text" class="form-control" v-model="form.user_id" placeholder="Agsing To ...">
+                        <label>{{ $t('booking.assing_to') }}</label>
+                          <select class="form-control" v-model="form.user_id">
+                        <option  value="">-- select Employee --</option>
+                        <option v-for="(items, index) in users_item" v-bind:key="index" :value="items._id" >{{items._id+" - "+items.username}}</option>
+                      </select>
                       </div>
                     </div>
               </div>
@@ -75,15 +82,15 @@
                     <div class="col-sm-12">
                       <!-- text input -->
                       <div class="form-group">
-                        <label>Job Title</label>
-                        <input type="text" class="form-control" v-model="form.job_title" placeholder="Job Title ...">
+                        <label>{{ $t('booking.job_title') }}</label>
+                        <input type="text" class="form-control" v-model="form.job_title" :placeholder="$t('booking.job_title')">
                       </div>
                     </div>
                       <div class="col-sm-12">
                       <!-- text input -->
                       <div class="form-group">
-                        <label>Location</label>
-                        <input type="text" class="form-control" v-model="form.location" placeholder="Location ...">
+                        <label>{{ $t('booking.location') }}</label>
+                        <input type="text" class="form-control" v-model="form.location" :placeholder="$t('booking.location')">
                       </div>
                     </div>
               </div>
@@ -91,8 +98,11 @@
                       <div class="col-sm-12">
                       <!-- text input -->
                       <div class="form-group">
-                        <label>Hospital Name</label>
-                        <input type="text" class="form-control" v-model="form.hospital_id" placeholder="Hospital or Clinic">
+                        <label>{{ $t('booking.hospital_name') }}</label>
+                      <select class="form-control" v-on:change="get_hospital_name()" v-model="form.hospital_id">
+                        <option  value="">-- Select Hospital --</option>
+                        <option v-for="(items, index) in hospital_item" v-bind:key="index" :value="items._id" >{{items.hospital_name}}</option>
+                      </select>
                       </div>
                     </div>
               </div>
@@ -100,15 +110,15 @@
                     <div class="col-sm-6">
                       <!-- text input -->
                       <div class="form-group">
-                        <label>Contact Name</label>
-                        <input type="text" class="form-control" v-model="form.contact_person" placeholder="Contact Name ...">
+                        <label>{{ $t('booking.contact_person') }}</label>
+                        <input type="text" class="form-control" v-model="form.contact_person" :placeholder="$t('booking.contact_person')">
                       </div>
                     </div>
                       <div class="col-sm-6">
                       <!-- text input -->
                           <!-- phone mask -->
                 <div class="form-group">
-                  <label>Contack Mobile:</label>
+                  <label>{{ $t('booking.contact_mobile') }}</label>
 
                   <div class="input-group">
                     <div class="input-group-prepend">
@@ -121,18 +131,11 @@
                     </div>
               </div>
             <div class="row">
-                    <div class="col-sm-6">
+                      <div class="col-sm-12">
                       <!-- text input -->
                       <div class="form-group">
-                        <label>Text</label>
-                        <input type="text" class="form-control" placeholder="Enter ...">
-                      </div>
-                    </div>
-                      <div class="col-sm-6">
-                      <!-- text input -->
-                      <div class="form-group">
-                        <label>Note</label>
-                        <input type="text" class="form-control" v-model="form.detail" placeholder="Note ...">
+                        <label>{{ $t('booking.note') }}</label>
+                        <textarea type="text" class="form-control" v-model="form.detail" :placeholder="$t('booking.note')"></textarea>
                       </div>
                     </div>
               </div>
@@ -160,12 +163,15 @@
 </template>
 
 <script>
-import bookingService from '@/service/booking_service';
-const service = new bookingService();
+import apiService from '@/service/api_service';
+const service = new apiService();
 export default {
   data() {
     return {
-      date: new Date(),  
+      date: new Date(),
+      machine_item:{},
+      users_item:{},
+      hospital_item:{},  
       form: {
         machine_id: "",
         user_id: "",
@@ -177,16 +183,48 @@ export default {
         contact_mobile: "",
         detail: "",
         reservation_date: new Date(),
-        reservation_time: new Date(),
+        reservation_time: "",
         reservation_by: "",
         update_by: "",
       },
     };
   },
   mounted: function() {
-
+    this.getAll_machine();
+    this.getAll_users();
+    this.getAll_hospital()
   },
   methods: {
+  async  getAll_machine(){
+  await service.getAll_machine()
+       .then((response) => {
+           this.machine_item=response
+        })
+        .catch(e => {
+            console.log(e);
+            this.$swal({position: "top-end",icon: "warning",title: "warning",text: e,showConfirmButton: false,timer: 2000});
+        });
+    },
+  async  getAll_users(){
+  await service.getAll_users()
+       .then((response) => {
+           this.users_item=response
+        })
+        .catch(e => {
+            console.log(e);
+            this.$swal({position: "top-end",icon: "warning",title: "warning",text: e,showConfirmButton: false,timer: 2000});
+        });
+    },
+  async  getAll_hospital(){
+  await service.getAll_hospital()
+       .then((response) => {
+           this.hospital_item=response
+        })
+        .catch(e => {
+            console.log(e);
+            this.$swal({position: "top-end",icon: "warning",title: "warning",text: e,showConfirmButton: false,timer: 2000});
+        });
+    },
     async booking_reserve() {
       const body ={
         machine_id: this.form.machine_id,
@@ -200,7 +238,7 @@ export default {
         detail: this.form.detail,
         reservation_date: this.form.reservation_date,
         reservation_time: this.form.reservation_time,
-        reservation_by: "admin",
+        reservation_by: this.$session.get('email'),
         update_by: "test",
       }
         await service.booking_reserve(body)
@@ -218,6 +256,13 @@ export default {
         });
 
         },
+      get_hospital_name() {
+      var id = this.form.hospital_id;
+       var objIndex = this.hospital_item.findIndex(obj => obj._id == id);
+        if (objIndex != -1) {
+        this.form.hospital_name= this.hospital_item[objIndex].hospital_name
+      }
+      }
   }
   
 }

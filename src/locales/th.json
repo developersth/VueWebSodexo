@@ -11,5 +11,18 @@
     "title": "เข้าสู่ระบบ",
     "btn_login": "ล็อคอิน",
     "regis_title":"ลงทะเบียน"
+  },
+  "booking": {
+    "title": "เพิ่มรายการจอง",
+    "machine": "เครื่องมือ",
+    "assing_to":"ส่งให้",
+    "job_title": "หัวข้องาน",
+    "location": "ที่อยู่",
+    "hospital_name": "ชื่อสถานพยาบาล",
+    "contact_person": "ชื่อผู้ติดต่อ",
+    "contact_mobile": "เบอร์ผู้ติดต่อ",
+    "note":"รายละเอียด",
+    "reservation_date": "วันที่จอง",
+    "reservation_time": "เวลาที่จอง"
   }
 }
