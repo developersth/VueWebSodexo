@@ -9,45 +9,30 @@
               ><i class="fas fa-bars"></i
             ></a>
           </li>
-          <li class="nav-item d-none d-sm-inline-block">
-            <a href="index3.html" class="nav-link">Home</a>
-          </li>
-          <li class="nav-item d-none d-sm-inline-block">
-            <a href="#" class="nav-link">Contact</a>
-          </li>
         </ul>
 
-        <!-- SEARCH FORM -->
-        <form class="form-inline ml-3">
-          <div class="input-group input-group-sm">
-            <input
-              class="form-control form-control-navbar"
-              type="search"
-              placeholder="Search"
-              aria-label="Search"
-            />
-            <div class="input-group-append">
-              <button class="btn btn-navbar" type="submit">
-                <i class="fas fa-search"></i>
-              </button>
-            </div>
-          </div>
-        </form>
 
         <!-- Right navbar links -->
         <ul class="navbar-nav ml-auto">
           <!-- Messages Dropdown Menu -->
           <li class="nav-item dropdown">
             <a class="nav-link" data-toggle="dropdown" href="#">
-              <i class="far fa-comments"></i>
-              <span class="badge badge-danger navbar-badge">3</span>
+              <i>
+              <div class="user-panel pb-3 mb-3 d-flex">
+              <img
+                src="/dist/img/user2-160x160.jpg"
+                class="img-circle elevation-2"
+                alt="User Image"
+              />
+             </div>
+              </i>
             </a>
             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
               <a href="#" class="dropdown-item">
                 <!-- Message Start -->
                 <div class="media">
                   <img
-                    src="dist/img/user1-128x128.jpg"
+                    src="/dist/img/user1-128x128.jpg"
                     alt="User Avatar"
                     class="img-size-50 mr-3 img-circle"
                   />
@@ -71,7 +56,7 @@
                 <!-- Message Start -->
                 <div class="media">
                   <img
-                    src="dist/img/user8-128x128.jpg"
+                    src="/dist/img/user8-128x128.jpg"
                     alt="User Avatar"
                     class="img-size-50 img-circle mr-3"
                   />
@@ -90,12 +75,13 @@
                 </div>
                 <!-- Message End -->
               </a>
+
               <div class="dropdown-divider"></div>
               <a href="#" class="dropdown-item">
                 <!-- Message Start -->
                 <div class="media">
                   <img
-                    src="dist/img/user3-128x128.jpg"
+                    src="/dist/img/user3-128x128.jpg"
                     alt="User Avatar"
                     class="img-size-50 img-circle mr-3"
                   />
@@ -118,6 +104,8 @@
               <a href="#" class="dropdown-item dropdown-footer"
                 >See All Messages</a
               >
+ 
+              
             </div>
           </li>
           <!-- Notifications Dropdown Menu -->
@@ -154,32 +142,27 @@
               <i class="fas fa-expand-arrows-alt"></i>
             </a>
           </li>
-          <li class="nav-item">
-            <a
-              class="nav-link"
-              data-widget="control-sidebar"
-              data-slide="true"
-              href="#"
-              role="button"
-            >
-              <i class="fas fa-th-large"></i>
+            <li class="nav-item">
+             <a class="nav-link"  href="#" role="button">
+                <language-switcher />
             </a>
           </li>
+
         </ul>
       </nav>
       <!-- /.navbar -->
 
       <!-- Main Sidebar Container -->
-      <aside class="main-sidebar sidebar-dark-primary elevation-4">
+      <aside class="main-sidebar elevation-4 sidebar-light-pink">
         <!-- Brand Logo -->
         <a href="index3.html" class="brand-link">
           <img
-            src="dist/img/AdminLTELogo.png"
+            src="/dist/img/medical-kit.png"
             alt="AdminLTE Logo"
             class="brand-image img-circle elevation-3"
             style="opacity: 0.8"
           />
-          <span class="brand-text font-weight-light">AdminLTE 3</span>
+          <span class="brand-text font-weight-light">MOWO</span>
         </a>
 
         <!-- Sidebar -->
@@ -188,13 +171,13 @@
           <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
               <img
-                src="dist/img/user2-160x160.jpg"
+                src="/dist/img/user2-160x160.jpg"
                 class="img-circle elevation-2"
                 alt="User Image"
               />
             </div>
             <div class="info">
-              <a href="#" class="d-block">Alexander Pierce</a>
+              <a href="#" class="d-block">Patipan Khunma</a>
             </div>
           </div>
 
@@ -258,7 +241,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <router-link to="login" class="nav-link">
+                <router-link :to="{name:'login',params:{lang:this.$i18n.locale}}" class="nav-link">
                   <i class="nav-icon fas fa-th"></i>
                   <p>
                     Login
@@ -267,7 +250,7 @@
                 </router-link>
               </li>
                    <li class="nav-item">
-                <router-link to="booking" class="nav-link">
+                <router-link :to="`/${$i18n.locale}/booking`" class="nav-link">
                   <i class="nav-icon fas fa-th"></i>
                   <p>
                     Booking
@@ -305,14 +288,39 @@
         <div class="float-right d-none d-sm-inline">Anything you want</div>
         <!-- Default to the left -->
         <strong
-          >Copyright &copy; 2014-2020
-          <a href="https://adminlte.io">AdminLTE.io</a>.</strong
+          >Copyright &copy; 2020
+          <a href="https://line.me/ti/p/AtiaGDCxWZ">บริษัท เทคโซล จำกัด</a>.</strong
         >
         All rights reserved.
       </footer>
+        <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+  </aside>
+  <!-- /.control-sidebar -->
     </div>
 </template>
+<script>
+import LanguageSwitcher from '@/components/LanguageSwitcher.vue'
 
+
+export default {
+  name: 'app',
+  components: {
+    LanguageSwitcher,
+  },
+  data() {
+    return {
+      menuOpen: false,
+    }
+  },
+  methods: {
+    toggleMenu() {
+      this.menuOpen = !this.menuOpen
+    }
+  }
+}
+</script>
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;

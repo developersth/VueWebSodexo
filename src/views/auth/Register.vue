@@ -26,7 +26,7 @@
             <!-- general form elements -->
             <div class="card card-outline card-primary">
                 <div class="card-header text-center">
-                  <a href="../../index2.html" class="h1"><b>User Register</b></a>
+                  <a href="../../index2.html" class="h1"><b>{{ $t('auth.regis_title') }}</b></a>
              </div>
               <!-- /.card-header -->
               <!-- form start -->
@@ -67,7 +67,7 @@
               <div class="row">
                 <div class="col-8">
                   <p class="mb-9 pull-right">
-           <a  href="/login" class="pull-right">Login</a>
+            <router-link to="login"  class="pull-right">Login</router-link>
         </p>
                 </div>
           <!-- /.col -->
@@ -75,7 +75,7 @@
      </div>
                 <!-- /.card-body -->
                 <div class="card-footer">
-                  <button type="submit" class="btn btn-primary">Register</button>
+                  <button type="submit" class="btn btn-primary float-right">Register</button>
                 </div>
            </form>
             </div>

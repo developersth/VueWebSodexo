@@ -24,10 +24,10 @@
         <div class="row justify-content-md-center">
      <div class="col-lg-5">
             <!-- general form elements -->
-            <div class="card card-primary">
-              <div class="card-header">
-                <h3 class="card-title">User Login</h3>
-              </div>
+                 <div class="card card-outline card-primary">
+                <div class="card-header text-center">
+                  <a href="#" class="h1"><b>{{ $t('auth.title') }}</b></a>
+             </div>
               <!-- /.card-header -->
               <!-- form start -->
                            <form  @submit.prevent="users_login()">
@@ -57,8 +57,8 @@
                     </label>
                   </div>
                   <p class="mb-0">
-           <a href="/register" class="text-center">Register</a>
-      </p>
+               <router-link to="register"  class="text-center">Register</router-link>
+        </p>
                 </div>
           <!-- /.col -->
         </div>
@@ -96,8 +96,8 @@ export default {
   },
   beforeCreate: function () {
      this.$swal(this.$session.get('email'));
-     console.log(this.$session.getAll())
-      console.log(this.$session)
+     //console.log(this.$session.getAll())
+      //console.log(this.$session)
 /*     if (!this.$session.exists()) {
       this.$router.push('/')
     } */
