@@ -59,12 +59,18 @@
                     <div class="col-sm-6">
                       <!-- text input -->
                      <div class="form-group" data-select2-id="47">
-                  <label>{{ $t('booking.machine') }}</label>
-                      <select class="form-control" v-model="form.machine_id">
+                                      <label>{{ $t('booking.machine') }}</label>
+                  <div class="input-group mb-3">
+                    <select class="form-control" v-model="form.machine_id">
                         <option  value="">-- select Machine --</option>
                         <option v-for="(items, index) in machine_item" v-bind:key="index" :value="items._id" >{{items._id+" - "+items.machine_name}}</option>
                       </select>
-
+                  <div class="input-group-append">
+                    <button class="btn btn-primary" @click.prevent="show_machine()">
+                    <i class="fas fa-search"></i>
+                    </button>
+                  </div>
+                </div>
                 </div>
                     </div>
                       <div class="col-sm-6">
@@ -158,6 +164,10 @@
         </div>
         <!-- /.row -->
       </div><!-- /.container-fluid -->
+<!-- Modal -->
+ <b-modal id="modal-1" title="BootstrapVue">
+    <p class="my-4">Hello from modal!</p>
+  </b-modal>
     </div>
 </div>
 </template>
@@ -195,6 +205,20 @@ export default {
     this.getAll_hospital()
   },
   methods: {
+  show_machine() {
+   this.$bvModal.show('modal-1')
+  },
+  format_time(date){
+    var hours = date.getHours();
+    var minutes = date.getMinutes();
+    return  hours+':'+minutes+':00';
+  },
+  format_date(date){
+    var dd = String(date.getDate()).padStart(2, '0');
+    var mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = date.getFullYear();
+    return  yyyy+'-'+mm+'-'+dd;
+  },
   async  getAll_machine(){
   await service.getAll_machine()
        .then((response) => {
@@ -236,8 +260,8 @@ export default {
         contact_person: this.form.contact_person,
         contact_mobile: this.form.contact_mobile,
         detail: this.form.detail,
-        reservation_date: this.form.reservation_date,
-        reservation_time: this.form.reservation_time,
+        reservation_date: this.format_date(this.form.reservation_date),
+        reservation_time: this.format_time(this.form.reservation_time),
         reservation_by: this.$session.get('email'),
         update_by: "test",
       }

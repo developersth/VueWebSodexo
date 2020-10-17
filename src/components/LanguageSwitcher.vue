@@ -1,8 +1,8 @@
 <template>
   <div class="relative">
-    <button
+    <button 
       href="#"
-      class="flex items-center"
+      class="flex btn btn-default"
       @click="toggleVisibility"
       @keydown.space.exact.prevent="toggleVisibility"
       @keydown.esc.exact="hideDropdown"
@@ -26,7 +26,7 @@
       >
         <li>
           <a
-            @click.prevent="setLocale('en')"
+            @click="setLocale('en')"
             ref="account"
             class="flex items-center px-3 py-3 hover:bg-gray-200"
             @keydown.up.exact.prevent=""
@@ -58,7 +58,7 @@
         </li> -->
         <li>
           <a
-            @click.prevent="setLocale('th')"
+            @click="setLocale('th')"
             class="flex items-center px-3 py-3 hover:bg-gray-200"
             @keydown.shift.tab="focusPrevious(false)"
             @keydown.up.exact.prevent="focusPrevious(true)"
@@ -87,6 +87,7 @@ export default {
     return {
       isVisible: false,
       focusedIndex: 0,
+      currentLocal:""
     };
   },
   methods: {
@@ -119,13 +120,11 @@ export default {
       this.$refs.dropdown.children[this.focusedIndex].children[0].focus();
     },
      setLocale(locale) {
-      try {
-        this.$i18n.locale = locale;
-        this.$router.push({params: { lang: locale}}).catch(()=>{});
-        this.hideDropdown();
-      } catch (error) {
-        console.log(error);
+       if (this.$i18n.locale !== locale) {
+          this.$i18n.locale = locale
+          this.$router.push({params: { lang: locale }})
       }
+      this.hideDropdown();
     },
   },
 };
