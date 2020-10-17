@@ -33,7 +33,7 @@
              <form  @submit.prevent="users_register()">
                 <div class="card-body">
               <div class="input-group mb-3">
-                <input type="text" class="form-control" v-model="form.username" placeholder="Username">
+                <input type="text" class="form-control" v-model="form.name" placeholder="Name">
                 <div class="input-group-append">
                   <div class="input-group-text">
                     <span class="fas fa-user"></span>
@@ -98,7 +98,7 @@ export default {
   data() {
     return {
       form: {
-        username: "",
+        name: "",
         email:"",
         mobile:"",
         password: "",
@@ -111,7 +111,7 @@ export default {
   methods: {
     async users_register() {
       const body ={
-        username:this.form.username,
+        name:this.form.name,
         email:this.form.email,
         mobile:this.form.mobile,
         password:this.form.password

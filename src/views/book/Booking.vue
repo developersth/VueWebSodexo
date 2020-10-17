@@ -21,8 +21,66 @@
     <!-- Main content -->
     <div class="content">
       <div class="container-fluid">
-        <div class="row">
-     <div class="col-md-6">
+        <div class="row justify-content-md-center">
+               <div class="col-md-12">
+              <div class="card card-outline card-primary">
+                     <div class="card-header text-center">
+                     <a href="#" class="h3"><b>{{ $t('booking.title') }}</b></a>
+                           <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-card-widget="card-refresh" data-source="widgets.html" data-source-selector="#card-refresh-content" data-load-on-init="false"><i class="fas fa-sync-alt"></i></button>
+                  <button type="button" class="btn btn-tool" data-card-widget="maximize"><i class="fas fa-expand"></i></button>
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+                  <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
+                </div>
+                   </div>
+             
+            <div class="card-body">
+              <div class="row">
+                    <div class="col-md-12">
+                     <div class="row">
+                        <div class="form-group col-sm-4 col-md-3 padding-small">
+                            <label>สถานะ</label>
+                            <select id="booking_status" class="form-control">
+                                <option value="">===ทุกสถานะ===</option>
+                                <option value="9">อยู่ระหว่างทำรายการ</option>
+                                <option value="00">รออนุมัติ/อ่านแล้ว</option>
+                                <option value="2">อนุมัติ</option>
+                                <option value="3">ไม่อนุมัติ</option>
+                                <option value="4">ยกเลิก</option>
+                                <option value="5">ส่งคืนรถแล้ว</option>
+                                <option value="6" selected="">รับคืนรถแล้ว</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-sm-4 col-md-3 padding-small">
+                            <label>จากวันที่ใช้รถ</label>
+                            <div class="input-group date">
+                                <input class="form-control" size="16" type="text" id="start_date" name="start_date" placeholder="วว/ดด/ปี พ.ศ." value="">
+                                <span class="input-group-addon btn btn-primary"><span class="glyphicon glyphicon-th"></span></span>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-4 col-md-3 padding-small">
+                            <label>ถึงวันที่</label>
+                            <div class="input-group date">
+                                <input class="form-control" size="16" type="text" id="end_date" name="end_date" placeholder="วว/ดด/ปี พ.ศ." value="">
+                                <span class="input-group-addon btn btn-primary"><span class="glyphicon glyphicon-th"></span></span>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-4 col-md-3 padding-small">
+                            <label>ทะเบียน</label>
+                            <div class="input-group">
+                                <input class="form-control" type="text" id="txtsearch" placeholder="ค้นหา..." autofocus="true" value="">
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-primary" onclick="load_div_grid()"><i class="fa fa-search"></i> ค้นหา</button>
+                                </span>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+         </div>
+     <div class="col-md-12">
             <!-- general form elements -->
             <div class="card card-outline card-success">
                      <div class="card-header text-center">
@@ -30,7 +88,7 @@
              </div>
             <div class="card-body">
                 <div class="row">
-                    <div class="col-sm-6">
+                    <div class="col-md-6">
 
                       <!-- text input -->
                       <div class="form-group">
@@ -63,10 +121,10 @@
                   <div class="input-group mb-3">
                     <select class="form-control" v-model="form.machine_id">
                         <option  value="">-- select Machine --</option>
-                        <option v-for="(items, index) in machine_item" v-bind:key="index" :value="items._id" >{{items._id+" - "+items.machine_name}}</option>
+                        <option v-for="(items, index) in machine_item" v-bind:key="index" :value="items._id" >{{items.machine_name}}</option>
                       </select>
                   <div class="input-group-append">
-                    <button class="btn btn-primary" @click.prevent="show_machine()">
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#modal-machine">
                     <i class="fas fa-search"></i>
                     </button>
                   </div>
@@ -78,8 +136,8 @@
                       <div class="form-group">
                         <label>{{ $t('booking.assing_to') }}</label>
                           <select class="form-control" v-model="form.user_id">
-                        <option  value="">-- select Employee --</option>
-                        <option v-for="(items, index) in users_item" v-bind:key="index" :value="items._id" >{{items._id+" - "+items.username}}</option>
+                        <option  value="">-- select Driver --</option>
+                        <option v-for="(items, index) in users_item" v-bind:key="index" :value="items._id" >{{items.name}}</option>
                       </select>
                       </div>
                     </div>
@@ -150,24 +208,75 @@
              </div>
             </div>
           </div>
-    <div class="col-md-6">
-            <!-- general form elements -->
-            <div class="card card-outline card-danger">
-              <div class="card-header text-center">
-                  <a href="#" class="h3"><b>MAP View</b></a>
-             </div>
-              <!-- /.card-header -->
-              <!-- form start -->
-        
-            </div>
-          </div>
         </div>
         <!-- /.row -->
       </div><!-- /.container-fluid -->
 <!-- Modal -->
- <b-modal id="modal-1" title="BootstrapVue">
-    <p class="my-4">Hello from modal!</p>
-  </b-modal>
+
+<!-- Modal -->
+<div class="modal fade" id="modal-machine" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+<table class="table table-hover">
+  <tbody>
+    <tr>
+      <td style="width:50px"><img src="/dist/img/machine/no-photo-icon-28.jpg" height="150" width="200" />
+      </td>
+      <td>
+        <div><h6>MED 152422</h6></div>
+        <div><h6>MED 152422</h6></div>
+        <div><h6>MED 152422</h6></div>
+        <div><h6 class="badge bg-success">Status: Not Use</h6></div>
+        
+      </td>
+      <td style="text-align: right;">
+        <button class="btn btn-primary mt-4 px-2"><i class="fas fa-check-circle"> Select</i></button>
+      </td>
+    </tr>
+      <tr>
+      <td style="width:50px"><img src="/dist/img/machine/no-photo-icon-28.jpg" height="150" width="200" />
+      </td>
+      <td>
+        <div><h6>MED 152422</h6></div>
+        <div><h6>MED 152422</h6></div>
+        <div><h6>MED 152422</h6></div>
+        <div><h6 class="badge bg-success">Status: Not Use</h6></div>
+        
+      </td>
+      <td style="text-align: right;">
+        <button class="btn btn-primary mt-4 px-2"><i class="fas fa-check-circle"> Select</i></button>
+      </td>
+    </tr>
+      <tr>
+      <td style="width:50px"><img src="/dist/img/machine/no-photo-icon-28.jpg" height="150" width="200" />
+      </td>
+      <td>
+        <div><h6>MED 152422</h6></div>
+        <div><h6>MED 152422</h6></div>
+        <div><h6>MED 152422</h6></div>
+        <div><h6 class="badge bg-success">Status: Not Use</h6></div>
+        
+      </td>
+      <td style="text-align: right;">
+        <button class="btn btn-primary mt-4 px-2"><i class="fas fa-check-circle"> Select</i></button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
     </div>
 </div>
 </template>
@@ -205,8 +314,8 @@ export default {
     this.getAll_hospital()
   },
   methods: {
-  show_machine() {
-   this.$bvModal.show('modal-1')
+  show() {
+    this.$modal.show('modal-login')
   },
   format_time(date){
     var hours = date.getHours();
@@ -285,6 +394,7 @@ export default {
        var objIndex = this.hospital_item.findIndex(obj => obj._id == id);
         if (objIndex != -1) {
         this.form.hospital_name= this.hospital_item[objIndex].hospital_name
+        this.form.location= this.hospital_item[objIndex].address
       }
       }
   }

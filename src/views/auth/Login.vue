@@ -33,7 +33,7 @@
                            <form  @submit.prevent="users_login()">
                 <div class="card-body">
               <div class="input-group mb-3">
-                <input type="text" class="form-control" v-model="form.username" placeholder="Email or Username">
+                <input type="text" class="form-control" v-model="form.username" placeholder="Email or Mobile">
                 <div class="input-group-append">
                   <div class="input-group-text">
                     <span class="fas fa-envelope"></span>
