@@ -13,7 +13,7 @@
     "regis_title":"User Register"
   },
   "booking": {
-    "title": "Add Booking",
+    "title": "List Booking",
     "machine": "Machine",
     "assing_to":"Assing to",
     "job_title": "Job title",
