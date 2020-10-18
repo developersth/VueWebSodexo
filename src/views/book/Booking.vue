@@ -25,6 +25,8 @@
       <div class="content">
          <div class="container-fluid">
             <div class="row justify-content-md-center">
+              <div>
+</div>
                <div class="col-md-12">
                   <div class="card card-outline card-primary">
                      <div class="card-header">
@@ -33,7 +35,7 @@
                            <a href="#" class="h3"><b>{{ $t('booking.title') }}</b></a>
                         </div>
                         <div class="col text-center">
-                          <button type="button" data-toggle="modal" @click.prevent="showModalBooking" class="btn btn-success text-center"><i class="fas fa-plus"> Add Booking</i></button>
+                          <button type="button" data-toggle="modal" @click="$bvModal.show('modal-booking')" class="btn btn-success text-center"><i class="fas fa-plus"> Add Booking</i></button>
                         </div>
                         <div class="col text-right">
                           <div class="card-tools">
@@ -151,17 +153,7 @@
 
 
 <!-- Modal -->
- <div ref="modal" class="modal fade" :class="{show, 'd-block': active}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header bg-primary">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="hideModalBooking">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-          <div class="modal-body">
+  <b-modal id="modal-booking" header-bg-variant="primary" size="lg" title="Add Booking">
                         <div class="row">
                            <div class="col-md-6">
                               <!-- text input -->
@@ -197,7 +189,7 @@
                                        <option v-for="(items, index) in machine_item" v-bind:key="index" :value="items._id" >{{items.machine_name}}</option>
                                     </select>
                                     <div class="input-group-append">
-                                       <button class="btn btn-primary" @click="showModalMachine">
+                                       <button class="btn btn-primary" @click="$bvModal.show('modal-machine')">
                                        <i class="fas fa-search"></i>
                                        </button>
                                     </div>
@@ -275,84 +267,24 @@
                               </div>
                            </div>
                         </div>
-                  </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-dismiss="modal" @click="hideModalBooking">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-  <!-- Modal Machine -->
- <div ref="modal" class="modal fade" :class="{showMachine, 'd-block': activeMachine}" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-             <table class="table table-hover">
+  </b-modal>
+
+   <b-modal id="modal-machine" size="lg" title="Machine List">
+          <table class="table table-hover">
                         <tbody>
-                           <tr>
-                              <td style="width:50px"><img src="/dist/img/machine/no-photo-icon-28.jpg" height="150" width="200" />
+                           <tr v-for="(item,index) in machine_item" v-bind:key="index">
+                              <td style="width:50px"><img :src="HOST_URL+item.url" height="150" width="200" />
                               </td>
                               <td>
                                  <div>
-                                    <h6>MED 152422</h6>
+                                    <h6>{{item.mechine_name}}</h6>
                                  </div>
                                  <div>
-                                    <h6>MED 152422</h6>
+                                    <h6>{{item.model}}</h6>
                                  </div>
                                  <div>
-                                    <h6>MED 152422</h6>
-                                 </div>
-                                 <div>
-                                    <h6 class="badge bg-success">Status: Not Use</h6>
-                                 </div>
-                              </td>
-                              <td style="text-align: right;">
-                                 <button class="btn btn-primary mt-4 px-2"><i class="fas fa-check-circle"> Select</i></button>
-                              </td>
-                           </tr>
-                           <tr>
-                              <td style="width:50px"><img src="/dist/img/machine/no-photo-icon-28.jpg" height="150" width="200" />
-                              </td>
-                              <td>
-                                 <div>
-                                    <h6>MED 152422</h6>
-                                 </div>
-                                 <div>
-                                    <h6>MED 152422</h6>
-                                 </div>
-                                 <div>
-                                    <h6>MED 152422</h6>
-                                 </div>
-                                 <div>
-                                    <h6 class="badge bg-success">Status: Not Use</h6>
-                                 </div>
-                              </td>
-                              <td style="text-align: right;">
-                                 <button class="btn btn-primary mt-4 px-2"><i class="fas fa-check-circle"> Select</i></button>
-                              </td>
-                           </tr>
-                           <tr>
-                              <td style="width:50px"><img src="/dist/img/machine/no-photo-icon-28.jpg" height="150" width="200" />
-                              </td>
-                              <td>
-                                 <div>
-                                    <h6>MED 152422</h6>
-                                 </div>
-                                 <div>
-                                    <h6>MED 152422</h6>
-                                 </div>
-                                 <div>
-                                    <h6>MED 152422</h6>
-                                 </div>
-                                 <div>
-                                    <h6 class="badge bg-success">Status: Not Use</h6>
+                                  <div v-if="item.status==='1'"> <h6 class="badge bg-success">Status: Use</h6></div>
+                                    <div v-else> <h6 class="badge bg-danger">Status:Not Use</h6></div>
                                  </div>
                               </td>
                               <td style="text-align: right;">
@@ -361,30 +293,17 @@
                            </tr>
                         </tbody>
                      </table>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
+   </b-modal>
   </div>
-</div>
-<!-- end Modal Machine -->
-  </div>
-</div>
 </template>
 <script>
    import apiService from '@/service/api_service';
+   const env = require('@/config/env');
    const service = new apiService();
    export default {
      data() {
        return {
-         //status Modal
-         active: false,
-         show: false,
-         activeMachine: false,
-         showMachine:false,
-         ///
+         HOST_URL:env.HOST_URL,
          date: new Date(),
          machine_item:{},
          users_item:{},
