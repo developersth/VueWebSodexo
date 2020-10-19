@@ -15,7 +15,7 @@
   "booking": {
     "title": "เพิ่มรายการจอง",
     "machine": "เครื่องมือ",
-    "assing_to":"ส่งให้",
+    "assing_to":"ส่งให้ พขร.",
     "job_title": "หัวข้องาน",
     "location": "ที่อยู่",
     "hospital_name": "ชื่อสถานพยาบาล",
@@ -23,6 +23,7 @@
     "contact_mobile": "เบอร์ผู้ติดต่อ",
     "note":"รายละเอียด",
     "reservation_date": "วันที่จอง",
-    "reservation_time": "เวลาที่จอง"
+    "reservation_time_start": "เวลาจองตั้งแต่",
+    "reservation_time_end": "เวลาจองถึง"
   }
 }

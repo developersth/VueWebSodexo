@@ -15,7 +15,7 @@
   "booking": {
     "title": "List Booking",
     "machine": "Machine",
-    "assing_to":"Assing to",
+    "assing_to":"Assing to Driver",
     "job_title": "Job title",
     "location": "location",
     "hospital_name": "Hospital Name",
@@ -23,6 +23,7 @@
     "contact_mobile": "Contact Mobile",
     "note":"Note",
     "reservation_date": "Reservation Date",
-    "reservation_time": "reservation_time"
+    "reservation_time_start":"Reservation time start",
+    "reservation_time_end": "Reservation time end"
   }
 }

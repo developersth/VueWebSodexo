@@ -8,7 +8,7 @@
                   <h1>Booking</h1>
                </div>
                <!-- /.col -->
-               <div class="col-sm-4">
+               <div class="col-sm-6">
                   <ol class="breadcrumb float-sm-right">
                      <li class="breadcrumb-item"><a href="#">Home</a></li>
                      <li class="breadcrumb-item active">Booking</li>
@@ -33,6 +33,7 @@
                        <div class="form-row">
                         <div class="col">
                            <a href="#" class="h3"><b>{{ $t('booking.title') }}</b></a>
+                           <span>{{ new Date() | moment("dddd, MMMM Do YYYY") }}</span>
                         </div>
                         <div class="col text-center">
                           <button type="button" data-toggle="modal" @click="$bvModal.show('modal-booking')" class="btn btn-success text-center"><i class="fas fa-plus"> Add Booking</i></button>
@@ -153,9 +154,10 @@
 
 
 <!-- Modal -->
-  <b-modal id="modal-booking" header-bg-variant="primary" size="lg" title="Add Booking">
+  <b-modal id="modal-booking" header-bg-variant="primary" size="lg" title="Add Booking"    @ok="handleOk" no-close-on-backdrop>
+      <form ref="form" @submit.prevent="handleSubmit">
                         <div class="row">
-                           <div class="col-md-6">
+                           <div class="col-md-4">
                               <!-- text input -->
                               <div class="form-group">
                                  <label>{{ $t('booking.reservation_date') }} :</label>
@@ -166,11 +168,22 @@
                                  </div>
                               </div>
                            </div>
-                           <div class="col-sm-6">
+                           <div class="col-sm-4">
                               <div class="form-group">
-                                 <label>{{ $t('booking.reservation_time') }} :</label>
+                                 <label>{{ $t('booking.reservation_time_start') }} :</label>
                                  <div class="input-group date" id="timepicker" data-target-input="nearest">
-                                    <date-picker lang="en" type="time" v-model="form.reservation_time" format="HH:mm"></date-picker>
+                                    <date-picker lang="en" type="time" v-model="form.reservation_time_start" format="HH:mm"></date-picker>
+                                    <div class="input-group-append" data-target="#timepicker" data-toggle="datetimepicker">
+                                    </div>
+                                 </div>
+                                 <!-- /.input group -->
+                              </div>
+                           </div>
+                           <div class="col-sm-4">
+                              <div class="form-group">
+                                 <label>{{ $t('booking.reservation_time_end') }} :</label>
+                                 <div class="input-group date" id="timepicker" data-target-input="nearest">
+                                    <date-picker lang="en" type="time" v-model="form.reservation_time_end" format="HH:mm"></date-picker>
                                     <div class="input-group-append" data-target="#timepicker" data-toggle="datetimepicker">
                                     </div>
                                  </div>
@@ -189,7 +202,7 @@
                                        <option v-for="(items, index) in machine_item" v-bind:key="index" :value="items._id" >{{items.machine_name}}</option>
                                     </select>
                                     <div class="input-group-append">
-                                       <button class="btn btn-primary" @click="$bvModal.show('modal-machine')">
+                                       <button class="btn btn-primary"  @click.prevent="showModalMachine">
                                        <i class="fas fa-search"></i>
                                        </button>
                                     </div>
@@ -267,27 +280,29 @@
                               </div>
                            </div>
                         </div>
+      </form>
   </b-modal>
 
    <b-modal id="modal-machine" size="lg" title="Machine List">
           <table class="table table-hover">
                         <tbody>
                            <tr v-for="(item,index) in machine_item" v-bind:key="index">
-                              <td style="width:50px"><img :src="HOST_URL+item.url" height="150" width="200" />
+                              <td style="width:50px"><img :src="HOST_URL+item.url" height="120" width="160" />
                               </td>
                               <td>
                                  <div>
-                                    <h6>{{item.mechine_name}}</h6>
+                                    <h6>Name : {{item.machine_name}}</h6>
                                  </div>
                                  <div>
-                                    <h6>{{item.model}}</h6>
+                                    <h6>Model : {{item.model}}</h6>
                                  </div>
                                  <div>
-                                  <div v-if="item.status==='1'"> <h6 class="badge bg-success">Status: Use</h6></div>
-                                    <div v-else> <h6 class="badge bg-danger">Status:Not Use</h6></div>
+                                  <div v-if="item.status===1"> <h6 class="badge bg-success">Status: Can be Used</h6></div>
+                                    <div v-else> <h6 class="badge bg-danger">Status:Stop Using</h6></div>
                                  </div>
                               </td>
                               <td style="text-align: right;">
+                                 
                                  <button class="btn btn-primary mt-4 px-2"><i class="fas fa-check-circle"> Select</i></button>
                               </td>
                            </tr>
@@ -303,8 +318,8 @@
    export default {
      data() {
        return {
+         validateNames: [],
          HOST_URL:env.HOST_URL,
-         date: new Date(),
          machine_item:{},
          users_item:{},
          hospital_item:{},  
@@ -319,7 +334,8 @@
            contact_mobile: "",
            detail: "",
            reservation_date: new Date(),
-           reservation_time: "",
+           reservation_time_start: "",
+           reservation_time_end: "",
            reservation_by: "",
            update_by: "",
          },
@@ -332,29 +348,17 @@
      },
      methods: {
   showModalBooking() {
-      const body = document.querySelector("body");
-      this.active = true;
-      body.classList.add("modal-open")
-      setTimeout(() => (this.show = true), 10);
+
     },
     hideModalBooking() {
-      const body = document.querySelector("body");
-      this.active = false;
-      body.classList.remove("modal-open")
-      setTimeout(() => (this.show = false), 10);
+
     },
     showModalMachine() {
-      this.hideModalBooking()
-      const body = document.querySelector("body");
-      this.activeMachine = true;
-      body.classList.add("modal-open")
-      setTimeout(() => (this.showMachine = true), 10);
+      this.getAll_machine();
+      this.$bvModal.show('modal-machine');
     },
     hideModalMachine() {
-      const body = document.querySelector("body");
-      this.activeMachine = false;
-      body.classList.remove("modal-open")
-      setTimeout(() => (this.showMachine = false), 10);
+
     },
      format_time(date){
        var hours = date.getHours();
@@ -366,6 +370,15 @@
        var mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
        var yyyy = date.getFullYear();
        return  yyyy+'-'+mm+'-'+dd;
+     },
+      format_date_time(date){
+       var dd = String(date.getDate()).padStart(2, '0');
+       var mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
+       var yyyy = date.getFullYear();
+       var hours = date.getHours();
+       var minutes = date.getMinutes();
+       var seconds = date.getSeconds();
+       return  yyyy+'-'+mm+'-'+dd +' '+ hours + ':'+minutes+ ':'+ seconds;
      },
      async  getAll_machine(){
      await service.getAll_machine()
@@ -397,6 +410,50 @@
                this.$swal({position: "top-end",icon: "warning",title: "warning",text: e,showConfirmButton: false,timer: 2000});
            });
        },
+      handleOk(bvModalEvt) {
+        // Prevent modal from closing
+        bvModalEvt.preventDefault()
+        // Trigger submit handler
+        this.handleSubmit()
+      },
+      handleSubmit() {
+        // Exit when the form isn't valid
+        if (!this.checkFormValidity()) {
+          return
+        }
+        // Push the name to submitted names
+        this.booking_reserve()
+        // Hide the modal manually
+        this.$nextTick(() => {
+          this.$bvModal.hide('modal-machine');
+        })
+      },
+      checkFormValidity() {
+        this.validateNames=[]
+        if (!this.form.reservation_date) this.validateNames.push({message:'กรุณากรอก วันที่จองด้วยครับ!'})
+         //console.log(this.$moment(dateNow).format("dddd, MMMM Do YYYY"))
+         console.log(this.$moment(this.form.reservation_date))
+          console.log(this.$moment(new Date()))
+        if (this.$moment(this.form.reservation_date).format("dddd, MMMM Do YYYY")<this.$moment(new Date()).format("dddd, MMMM Do YYYY")) this.validateNames.push({message:'ไม่สามารถจองย้อนหลังได้!'})
+        if (!this.form.reservation_time_start) this.validateNames.push({message:"กรุณากรอก เวลาเริ่มจองด้วยครับ!"})
+        if (!this.form.reservation_time_end) this.validateNames.push({message:"กรุณากรอก เวลาสิ้นสุดการจองด้วยครับ!"})
+        if (this.form.reservation_time_start && this.form.reservation_time_end){
+            if (this.format_time(this.form.reservation_time_start)>this.format_time(this.form.reservation_time_end)) this.validateNames.push({message:"เวลาเริ่มต้นต้อง น้อยกว่าเท่ากับ เวลาสิ้นสุดการจอง!"})
+        }
+        if (!this.form.contact_person) this.validateNames.push({message:"กรุณากรอก คนที่ติดต่อด้วยครับ!"})
+        if (!this.form.contact_mobile) this.validateNames.push({message:"กรุณากรอก เบอร์คนที่ติดต่อด้วยครับ!"})
+        if (this.validateNames){
+           let message='';
+           for (let i = 0; i < this.validateNames.length; i++) {
+              message +=this.validateNames[i].message +'<br />';
+            }
+          this.$swal({position: "top-end",icon: "warning",title: "Information",html: message,showConfirmButton: false,timer: 2000}); 
+          return false
+        }else{
+           return true
+        } 
+
+      },
        async booking_reserve() {
          const body ={
            machine_id: this.form.machine_id,
@@ -409,17 +466,17 @@
            contact_mobile: this.form.contact_mobile,
            detail: this.form.detail,
            reservation_date: this.format_date(this.form.reservation_date),
-           reservation_time: this.format_time(this.form.reservation_time),
+           reservation_time_start: this.format_time(this.form.reservation_time_start),
+           reservation_time_end: this.format_time(this.form.reservation_time_end),
            reservation_by: this.$session.get('email'),
            update_by: "test",
          }
            await service.booking_reserve(body)
             .then(res =>  {
                if (res.success) {
-                this.$swal({position: "top-end",icon: "success",title: "Register",text: res.message,showConfirmButton: false,timer: 3000});
-                 this.toggleModal()
+                this.$swal({position: "top-end",icon: "success",title: "Register",text: res.message,showConfirmButton: false,timer: 1500});
                }else{
-                 this.$swal({position: "top-end",icon: "warning",title: "Information",text: res.message,showConfirmButton: false,timer: 3000});  
+                 this.$swal({position: "top-end",icon: "warning",title: "Information",text: res.message,showConfirmButton: false,timer: 1500});  
                }
                
            })
