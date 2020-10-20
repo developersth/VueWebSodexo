@@ -162,7 +162,7 @@
             class="brand-image img-circle elevation-3"
             style="opacity: 0.8"
           />
-          <span class="brand-text font-weight-light">MOWO</span>
+          <span class="brand-text font-weight-light">SODEXO</span>
         </a>
 
         <!-- Sidebar -->
@@ -254,6 +254,15 @@
                   <i class="nav-icon fas fa-th"></i>
                   <p>
                     Booking
+                    <span class="right badge badge-danger">Booking</span>
+                  </p>
+                </router-link>
+              </li>
+                     <li class="nav-item">
+                <router-link :to="`/${$i18n.locale}/hospital`" class="nav-link">
+                  <i class="nav-icon fas fa-th"></i>
+                  <p>
+                    Hospital
                     <span class="right badge badge-danger">Booking</span>
                   </p>
                 </router-link>

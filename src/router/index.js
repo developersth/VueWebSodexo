@@ -38,7 +38,8 @@ const routes = [
         component: () => import(/* webpackChunkName: "contact" */ '../views/auth/Login.vue')
       },
       {path: 'register',name: 'register',component: () => import('../views/auth/Register.vue')},
-      {path: 'booking',name: 'booking',component: () => import('../views/book/Booking.vue')}
+      {path: 'booking',name: 'booking',component: () => import('../views/book/Booking.vue')},
+      {path: 'hospital',name: 'hospital',component: () => import('../views/setting/Hospital.vue')}
     ]
   }
 ]

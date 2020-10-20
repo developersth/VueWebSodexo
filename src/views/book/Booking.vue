@@ -34,7 +34,6 @@
                     <a href="#" class="h3"
                       ><b>{{ $t("booking.title") }}</b></a
                     >
-                    <span>{{ new Date() | moment("dddd, MMMM Do YYYY") }}</span>
                   </div>
                   <div class="col text-center">
                     <button
@@ -304,16 +303,13 @@
             <div class="form-group" data-select2-id="47">
               <label>{{ $t("booking.machine") }}</label>
               <div class="input-group mb-3">
-                <select class="form-control" v-model="form.machine_id">
-                  <option value="">-- select Machine --</option>
-                  <option
-                    v-for="(items, index) in machine_item"
-                    v-bind:key="index"
-                    :value="items._id"
-                  >
-                    {{ items.machine_name }}
-                  </option>
-                </select>
+                <input
+                  type="text"
+                  class="form-control"
+                  v-model="form.machine_id"
+                  :placeholder="$t('booking.machine')"
+                  readonly
+                />
                 <div class="input-group-append">
                   <button
                     class="btn btn-primary"
@@ -448,9 +444,12 @@
         <tbody>
           <tr v-for="(item, index) in machine_item" v-bind:key="index">
             <td style="width: 50px">
-              <img :src="HOST_URL + item.url" height="120" width="160" />
+              <img :src="item.url" height="120" width="160" />
             </td>
             <td>
+               <div>
+                <h6>ID : {{ item._id }}</h6>
+              </div>
               <div>
                 <h6>Name : {{ item.machine_name }}</h6>
               </div>
@@ -458,17 +457,20 @@
                 <h6>Model : {{ item.model }}</h6>
               </div>
               <div>
-                <div v-if="item.status === 1">
-                  <h6 class="badge bg-success">Status: Can be Used</h6>
+                <div v-if="item.book_status === 1">
+                  <h6 class="badge bg-success">Status: Can be Reserve</h6>
                 </div>
                 <div v-else>
-                  <h6 class="badge bg-danger">Status:Stop Using</h6>
+                  <h6 class="badge bg-danger">Status:Can Not Reserve</h6>
                 </div>
               </div>
             </td>
             <td style="text-align: right">
-              <button class="btn btn-primary mt-4 px-2">
-                <i class="fas fa-check-circle"> Select</i>
+              <button
+                class="btn btn-primary mt-4 px-2" @click="select_machine(item._id)"
+                :disabled="!item.book_status"
+              >
+                <i class="fas fa-check-circle"> Reserve</i>
               </button>
             </td>
           </tr>
@@ -515,15 +517,68 @@ export default {
     this.getAll_hospital();
   },
   methods: {
-    showModalBooking() {},
-    hideModalBooking() {},
+    select_machine(id){
+       this.form.machine_id=id
+       this.hideModalMachine();
+    },
     showModalMachine() {
-      this.getAll_machine();
+      this.validateNames = [];
+      if (!this.form.reservation_date)
+        this.validateNames.push({ message: "กรุณากรอก วันที่จองด้วยครับ!" });
+      if (!this.form.reservation_time_start)
+        this.validateNames.push({ message: "กรุณากรอก เวลาเริ่มจองด้วยครับ!" });
+      if (!this.form.reservation_time_end)
+        this.validateNames.push({
+          message: "กรุณากรอก เวลาสิ้นสุดการจองด้วยครับ!",
+        });
+      if (this.validateNames.length > 0) {
+        let message = "";
+        for (let i = 0; i < this.validateNames.length; i++) {
+          message += this.validateNames[i].message + "<br />";
+        }
+        this.$swal({
+          position: "top-end",
+          icon: "warning",
+          title: "Information",
+          html: message,
+          showConfirmButton: false,
+          timer: 2000,
+        });
+        return;
+      }
+      this.findMachineBooking();
       this.$bvModal.show("modal-machine");
     },
-    hideModalMachine() {},
+    hideModalMachine() {
+       this.$bvModal.hide("modal-machine")
+    },
     string_to_date(vDate) {
       return new Date(vDate.replace(/(\d{2})-(\d{2})-(\d{4})/, "$2/$1/$3"));
+    },
+    async findMachineBooking() {
+      const body = {
+        reservation_date: util.format_date(this.form.reservation_date),
+        reservation_time_start: util.format_time(
+          this.form.reservation_time_start
+        ),
+        reservation_time_end: util.format_time(this.form.reservation_time_end),
+      };
+      await service
+        .findMachineBooking(body)
+        .then((response) => {
+          this.machine_item = response;
+        })
+        .catch((e) => {
+          console.log(e);
+          this.$swal({
+            position: "top-end",
+            icon: "warning",
+            title: "warning",
+            text: e,
+            showConfirmButton: false,
+            timer: 2000,
+          });
+        });
     },
     async getAll_machine() {
       await service
@@ -594,7 +649,7 @@ export default {
       this.booking_reserve();
       // Hide the modal manually
       this.$nextTick(() => {
-        this.$bvModal.hide("modal-machine");
+        this.$bvModal.hide("modal-booking");
       });
     },
     checkFormValidity() {
@@ -608,15 +663,14 @@ export default {
         this.validateNames.push({ message: "ไม่สามารถจองย้อนหลังได้!" });
       if (!this.form.reservation_time_start)
         this.validateNames.push({ message: "กรุณากรอก เวลาเริ่มจองด้วยครับ!" });
+      if (!this.form.machine_id)
+        this.validateNames.push({ message: "กรุณากรอก เลือกเครื่องที่ต้องการจองด้วยครับ!" });
       if (!this.form.reservation_time_end)
         this.validateNames.push({
           message: "กรุณากรอก เวลาสิ้นสุดการจองด้วยครับ!",
         });
       if (this.form.reservation_time_start && this.form.reservation_time_end) {
-        if (
-          util.format_time(this.form.reservation_time_start) >
-          util.format_time(this.form.reservation_time_end)
-        )
+        if (this.form.reservation_time_start > this.form.reservation_time_end)
           this.validateNames.push({
             message: "เวลาเริ่มต้นต้อง น้อยกว่าเท่ากับ เวลาสิ้นสุดการจอง!",
           });
@@ -627,7 +681,7 @@ export default {
         this.validateNames.push({
           message: "กรุณากรอก เบอร์คนที่ติดต่อด้วยครับ!",
         });
-      if (this.validateNames) {
+      if (this.validateNames.length > 0) {
         let message = "";
         for (let i = 0; i < this.validateNames.length; i++) {
           message += this.validateNames[i].message + "<br />";
@@ -656,12 +710,12 @@ export default {
         contact_person: this.form.contact_person,
         contact_mobile: this.form.contact_mobile,
         detail: this.form.detail,
-        reservation_date: this.format_date(this.form.reservation_date),
-        reservation_time_start: this.format_time(
+        reservation_date: util.format_date(this.form.reservation_date),
+        reservation_time_start: util.format_time(
           this.form.reservation_time_start
         ),
-        reservation_time_end: this.format_time(this.form.reservation_time_end),
-        reservation_by: this.$session.get("email"),
+        reservation_time_end: util.format_time(this.form.reservation_time_end),
+        reservation_by: this.$session.get("name"),
         update_by: "test",
       };
       await service

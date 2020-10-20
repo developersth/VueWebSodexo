@@ -118,6 +118,7 @@
                 this.$session.start()
                 this.$session.set('jwt', res.token)
                 this.$session.set('username', res.username)
+                this.$session.set('name', res.name)
                 this.$session.set('email', res.email)
                 this.$session.set('mobile', res.mobile)
                 this.$swal({position: "top-end",icon: "success",title: "Login",text: res.message,showConfirmButton: false,timer: 3000});
