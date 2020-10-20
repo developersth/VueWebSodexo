@@ -30,15 +30,14 @@
               <div class="card-header">
                 <div class="form-row">
                   <div class="col">
-                    <a href="#" class="h3"
-                      ><b>Hospital</b></a
-                    >
+                    <a href="#" class="h3"><b>Hospital</b></a>
                   </div>
                   <div class="col text-center">
                     <button
                       type="button"
-                      data-toggle="modal" 
+                      data-toggle="modal"
                       class="btn btn-success text-center"
+                      v-b-modal.modal-hospital
                     >
                       <i class="fas fa-plus"> Add Hospital</i>
                     </button>
@@ -83,7 +82,57 @@
               <div class="card-body">
                 <div class="row">
                   <div class="col-md-12">
-                          <CustomInputAndResultsWithEvents />
+                    <b-modal
+                      id="modal-hospital"
+                      header-bg-variant="primary"
+                      size="lg"
+                      title="#hopital"
+                      no-close-on-backdrop
+                    >
+<google-places-autocomplete
+      @resultChanged="(placeDetail) => (place = placeDetail)"
+      @resultCleared="() => (place = null)"
+    >
+      <div slot="input" slot-scope="{ context, events, actions }">
+        <div class="col-sm-12">
+          <div class="form-group">
+            <label class="text-center"><h4>ค้นหาชื่อและที่อยู่</h4></label>
+            <input
+              v-model="context.input"
+              @focus="events.inputHasReceivedFocus"
+              @input="events.inputHasChanged"
+              @keydown.enter.prevent="actions.selectItemFromList"
+              @keydown.down.prevent="actions.shiftResultsSelection"
+              @keydown.up.prevent="actions.unshiftResultsSelection"
+              type="search"
+              id="locationInput"
+              class="form-control"
+              placeholder="Type something ..."
+            />
+          </div>
+        </div>
+      </div>
+     
+      <span
+        slot="item"
+        slot-scope="{ place }"
+        class="block p-2 list-group-item list-group-item-action list-group-item-success"
+      >
+        {{ place.description }}
+      </span>
+      <span
+        slot="activeItem"
+        slot-scope="{ place }"
+        class="block p-2 rounded list-group-item list-group-item-action list-group-item-danger"
+      >
+        {{ place.description }}
+      </span>
+    </google-places-autocomplete>
+         <input class="form-control" v-if="place"  />"/>
+    <h3 class="mt-8 text-grey-dark" v-if="place">Result</h3>
+    <pre v-html="place" class="text-xs" />
+                    </b-modal>
+
                   </div>
                 </div>
               </div>
@@ -92,18 +141,29 @@
         </div>
       </div>
     </div>
-
   </div>
 </template>
 
 <script>
-import CustomInputAndResultsWithEvents from "@/components/CustomInputAndResultsWithEvents.vue";
-
+import { GooglePlacesAutocomplete } from "vue-better-google-places-autocomplete";
 export default {
   name: "hopital",
   components: {
-    CustomInputAndResultsWithEvents,
+    GooglePlacesAutocomplete
   },
+   data() {
+    return {
+      place: null,
+      address: ''
+    };
+  },
+  computed() {
+},
+  methods:{
+    getAddressData: function (addressData, placeResultData, id) {
+                this.address = addressData+' '+id;
+            }
+  }
 };
 </script>
 
