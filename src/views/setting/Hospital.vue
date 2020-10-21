@@ -128,7 +128,7 @@
         {{ place.description }}
       </span>
     </google-places-autocomplete>
-         <input class="form-control" v-if="place"  />"/>
+         <input class="form-control" v-if="place" :value="place.geometry[0].lat" />
     <h3 class="mt-8 text-grey-dark" v-if="place">Result</h3>
     <pre v-html="place" class="text-xs" />
                     </b-modal>
@@ -154,17 +154,18 @@ export default {
    data() {
     return {
       place: null,
-      address: ''
+      address: '',
+      lat:'',
+      lng:''
     };
   },
-  computed() {
+  computed: {
 },
   methods:{
-    getAddressData: function (addressData, placeResultData, id) {
-                this.address = addressData+' '+id;
-            }
+    geocodeLatLng: function (){
+}
   }
-};
+}
 </script>
 
 <style>
