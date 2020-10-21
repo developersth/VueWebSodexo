@@ -203,16 +203,16 @@
                         </div>
                       </div>
                       </div>
-                          <template #modal-footer="{ ok, cancel,resetModal }">
+                          <template #modal-footer="{ cancel }">
       <!-- Emulate built in modal footer ok and cancel button actions -->
-      <b-button size="md" variant="success" @click="ok()">
+      <b-button size="md" variant="success" @click="create_hospital()">
         OK
       </b-button>
       <b-button size="md" variant="danger" @click="cancel()">
         Cancel
       </b-button>
       <!-- Button with custom close trigger value -->
-      <b-button size="md" variant="secondary" @click="resetModal()">
+      <b-button size="md" variant="secondary" @click.prevent="resetModal()">
         Clear
       </b-button>
     </template>
@@ -230,6 +230,8 @@
 
 <script>
 import { GooglePlacesAutocomplete } from "vue-better-google-places-autocomplete";
+import apiService from "@/service/api_service";
+const service = new apiService();
 export default {
   name: "hopital",
   components: {
@@ -267,13 +269,67 @@ export default {
         this.lng=longitude
     },
     resetModal(){
-        this.context.input=""
         this.hospital_name=""
         this.address=""
         this.tel=""
         this.lat=""
         this.lng=""
-        this.$emit('resultCleared')
+        this.status=true
+    },
+    async create_hospital(){
+      if (!this.hospital_name){
+           this.$swal({
+              position: "top-end",
+              icon: "warning",
+              title: "infmation",
+              text:"ระบุชื่อสถานบริการ",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+            return;
+       }
+      const body = {
+        hospital_name:this.hospital_name,
+        address:this.address,
+        tel:this.tel,
+        lat:this.lat,
+        lng:this.lng,
+        status:this.status
+      }
+
+       await service.create_hospital(body)
+         .then((res) => {
+          if (res.success) {
+            this.$swal({
+              position: "top-end",
+              icon: "success",
+              title: "Register",
+              text: res.message,
+              showConfirmButton: false,
+              timer: 1500,
+            });
+          } else {
+            this.$swal({
+              position: "top-end",
+              icon: "warning",
+              title: "Information",
+              text: res.message,
+              showConfirmButton: false,
+              timer: 1500,
+            });
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+          this.$swal({
+            position: "top-end",
+            icon: "warning",
+            title: "warning",
+            text: e,
+            showConfirmButton: false,
+            timer: 3000,
+          });
+        });
     }
   },
 };

@@ -21,8 +21,8 @@ class apiService extends api {
     const { data } = await this.create(env.baseURL+"booking", body,  this.setHeader(env.Authorization));
     return data;
   }
-  //ค้นหาเครื่องที่ว่าง
-  async findMachineBooking(body) {
+
+  async findMachineBooking(body) {  //ค้นหาเครื่องที่ว่าง
     const { data } = await this.get(env.baseURL+"booking/find-machine-booking", body,  this.setHeader(env.Authorization));
     return data;
   }
@@ -34,7 +34,11 @@ class apiService extends api {
     const  {data}  = await this.get(env.baseURL+"hospital", body, this.setHeader(env.Authorization));
     return data;
   }
-
+  //hopital
+  async create_hospital(body) {
+    const { data } = await this.create(env.baseURL+"hospital", body,  this.setHeader(env.Authorization));
+    return data;
+  }
 }
 
 export default apiService;
