@@ -30,13 +30,26 @@ class apiService extends api {
     const  {data}  = await this.get(env.baseURL+"machine", body, this.setHeader(env.Authorization));
     return data;
   }
-  async getAll_hospital(body) {
-    const  {data}  = await this.get(env.baseURL+"hospital", body, this.setHeader(env.Authorization));
-    return data;
-  }
-  //hopital
+
+  //hospital
   async create_hospital(body) {
     const { data } = await this.create(env.baseURL+"hospital", body,  this.setHeader(env.Authorization));
+    return data;
+  }
+  async getAll_hospital() {
+    const { data } = await this.get(env.baseURL+"hospital",  this.setHeader(env.Authorization));
+    return data;
+  }
+  async getOne_hospital(id) {
+    const { data } = await this.get(env.baseURL+"hospital/"+id,  this.setHeader(env.Authorization));
+    return data;
+  }
+  async update_hospital(id,body) {
+    const { data } = await this.update(env.baseURL+"hospital/"+id,body,  this.setHeader(env.Authorization));
+    return data;
+  }
+  async delete_hospital(id) {
+    const { data } = await this.delete(env.baseURL+"hospital/"+id,  this.setHeader(env.Authorization));
     return data;
   }
 }

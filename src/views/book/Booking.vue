@@ -100,15 +100,12 @@
                       <div class="form-group col-sm-4 col-md-3 padding-small">
                         <label>From</label>
                         <div class="input-group date">
-                          <input
-                            class="form-control"
-                            size="16"
-                            type="text"
-                            id="start_date"
-                            name="start_date"
-                            placeholder="DD/MM/YYY"
-                            value=""
-                          />
+                            <date-picker
+                            lang="en"
+                            type="date"
+                            v-model="start_date"
+                            format="DD-MM-YYYY"
+                          ></date-picker>
                           <span class="input-group-addon btn btn-primary"
                             ><span class="glyphicon glyphicon-th"></span
                           ></span>

@@ -37,7 +37,7 @@
                       type="button"
                       data-toggle="modal"
                       class="btn btn-success text-center"
-                      v-b-modal.modal-hospital
+                      @click="showModal"
                     >
                       <i class="fas fa-plus"> Add Hospital</i>
                     </button>
@@ -82,11 +82,33 @@
               <div class="card-body">
                 <div class="row">
                   <div class="col-md-12">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th scope="col">#</th>
+                          <th scope="col">ชื่อสถานพยาบาล</th>
+                          <th scope="col">สถานะ</th>
+                          <th scope="col" class="text-center">#</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr v-for="(item,index) in hospital_items" v-bind:key="index">
+                          <th scope="row">{{index+1}}</th>
+                          <td>{{item.hospital_name}}</td>
+                          <td v-if="item.status"><label class="badge bg-success">ใช้งาน</label></td>
+                          <td v-else><label class="badge bg-danger">หยุดใช้งาน</label></td>
+                          <td class="text-center">
+                            <button class="btn btn-info btn-sm" @click="editModal(item._id)">Edit</button>
+                            <button class="btn btn-danger btn-sm ml-2" @click="delete_data(item._id)">Delete</button>
+                            </td>
+                        </tr>
+                      </tbody>
+                    </table>
                     <b-modal
                       id="modal-hospital"
                       header-bg-variant="primary"
                       size="lg"
-                      title="#hopital"
+                      title="#Hospital"
                       no-close-on-backdrop
                     >
                      <div class="row">
@@ -109,9 +131,8 @@
                                 @input="events.inputHasChanged"
                                 @keydown.enter.prevent="actions.selectItemFromList"
                                 @keydown.down.prevent="actions.shiftResultsSelection"
-                                @keydown.up.prevent="
-                                  actions.unshiftResultsSelection
-                                "
+                                @keydown.up.prevent="actions.unshiftResultsSelection"
+                                country="th"
                                 type="search"
                                 id="locationInput"
                                 class="form-control"
@@ -205,7 +226,7 @@
                       </div>
                           <template #modal-footer="{ cancel }">
       <!-- Emulate built in modal footer ok and cancel button actions -->
-      <b-button size="md" variant="success" @click="create_hospital()">
+      <b-button size="md" variant="success" @click.prevent="validate_action">
         OK
       </b-button>
       <b-button size="md" variant="danger" @click="cancel()">
@@ -246,20 +267,33 @@ export default {
         lng: "",
       },
       txtSearch:"",
+      id:0,
       hospital_name:"",
       address:"",
       tel:"",
       lat: "",
       lng: "",
-      status:true
+      status:true,
+      hospital_items:[],
+      action:'A'
     };
   },
   mounted() {
-    this.data = this.place;
+    this.data = this.place
+    this.getAll_hospital()
   },
   methods: {
+    validate_action(){
+      if ( this.action==='A')
+        this.create_hospital()
+      else
+        this.edit_hospital()
+    },
+    showModal(){
+      this.action='A'
+      this.$bvModal.show("modal-hospital")
+    },
     resultGoogle(results){
-       console.log(results)
         this.hospital_name=results.name
         this.address=results.formatted_address
         this.tel=results.formatted_phone_number
@@ -275,6 +309,71 @@ export default {
         this.lat=""
         this.lng=""
         this.status=true
+    },
+    async getAll_hospital(){
+        await service.getAll_hospital()
+         .then((res) => {
+           this.hospital_items=res
+        })
+        .catch((e) => {
+          console.log(e);
+          this.$swal({
+            position: "top-end",
+            icon: "warning",
+            title: "warning",
+            text: e,
+            showConfirmButton: false,
+            timer: 3000,
+          });
+        });
+    },
+   async delete_data(id){
+     this.$swal({
+        title: 'Are you sure?',
+        text: "คุณต้องการลบข้อมูลหรือไม่!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+             service.delete_hospital(id)
+            .then((res) => {
+              if (res.success) {
+                 this.$swal('Deleted!','Your has been deleted.','success')
+                 this.getAll_hospital()
+              }else{
+                  this.$swal('Deleted!',res.message,'warning')
+              }
+            })
+        }
+      })
+   },
+   async editModal(id){
+        this.action='E'
+        this.id=id
+        await service.getOne_hospital(id)
+         .then((res) => {
+           this.hospital_name=res.hospital_name
+           this.address=res.address
+           this.tel=res.tel
+           this.lat=res.lat
+           this.lng=res.lng
+           this.status=res.status
+           this.$bvModal.show("modal-hospital")
+        })
+        .catch((e) => {
+          console.log(e);
+          this.$swal({
+            position: "top-end",
+            icon: "warning",
+            title: "warning",
+            text: e,
+            showConfirmButton: false,
+            timer: 3000,
+          });
+        });
     },
     async create_hospital(){
       if (!this.hospital_name){
@@ -296,18 +395,77 @@ export default {
         lng:this.lng,
         status:this.status
       }
-
        await service.create_hospital(body)
          .then((res) => {
           if (res.success) {
             this.$swal({
               position: "top-end",
               icon: "success",
-              title: "Register",
+              title: "Infomation",
               text: res.message,
               showConfirmButton: false,
               timer: 1500,
             });
+             this.$bvModal.hide("modal-hospital");
+             this.resetModal()
+             this.getAll_hospital()
+          } else {
+            this.$swal({
+              position: "top-end",
+              icon: "warning",
+              title: "Information",
+              text: res.message,
+              showConfirmButton: false,
+              timer: 1500,
+            });
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+          this.$swal({
+            position: "top-end",
+            icon: "warning",
+            title: "warning",
+            text: e,
+            showConfirmButton: false,
+            timer: 3000,
+          });
+        });
+    },
+  async edit_hospital(){
+      if (!this.hospital_name){
+           this.$swal({
+              position: "top-end",
+              icon: "warning",
+              title: "infmation",
+              text:"ระบุชื่อสถานบริการ",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+            return;
+       }
+      const body = {
+        hospital_name:this.hospital_name,
+        address:this.address,
+        tel:this.tel,
+        lat:this.lat,
+        lng:this.lng,
+        status:this.status
+      }
+       await service.update_hospital(this.id,body)
+         .then((res) => {
+          if (res.success) {
+            this.$swal({
+              position: "top-end",
+              icon: "success",
+              title: "Hospital",
+              text: res.message,
+              showConfirmButton: false,
+              timer: 1500,
+            });
+             this.$bvModal.hide("modal-hospital");
+             this.resetModal()
+             this.getAll_hospital()
           } else {
             this.$swal({
               position: "top-end",
