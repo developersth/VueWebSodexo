@@ -23,9 +23,25 @@ Vue.use(VueSweetalert2);
 Vue.use(DatePicker);
 Vue.use(VueAxios, axios);
 Vue.config.productionTip = false
+Vue.config.productionTip = false
+
+// use beforeEach route guard to set the language
+router.beforeEach((to, from, next) => {
+
+  // use the language from the routing param or default language
+  let language = to.params.lang;
+  if (!language) {
+    language = 'en'
+  }
+
+  // set the current language for i18n.
+  i18n.locale = language
+  next()
+})
+
 new Vue({
-  i18n,
   router,
+  i18n,
   store,
   render: h => h(App)
 }).$mount('#app')

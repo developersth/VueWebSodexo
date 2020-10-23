@@ -144,7 +144,10 @@
           </li>
             <li class="nav-item">
              <a class="nav-link"  href="#" role="button">
-                <language-switcher />
+               <select class="form-control" v-model="lang" @change="handleChange($event)">
+                 <option value="en">Englist</option>
+                  <option value="th">Thai</option>
+               </select>
             </a>
           </li>
            
@@ -310,21 +313,28 @@
     </div>
 </template>
 <script>
-import LanguageSwitcher from '@/components/LanguageSwitcher.vue'
 
 export default {
   name: 'app',
-  components: {
-    LanguageSwitcher
-  },
   data() {
     return {
       menuOpen: false,
+      lang:localStorage.getItem('lang')||'en'
     }
   },
   methods: {
     toggleMenu() {
       this.menuOpen = !this.menuOpen
+    },
+    handleChange: function(event){
+      localStorage.setItem('lang', event.target.value)
+      this.setLocale(event.target.value)
+    },
+    setLocale(locale) {
+       if (this.$i18n.locale !== locale) {
+          this.$i18n.locale = locale
+          this.$router.push({params: { lang: locale }})
+    }
     }
   }
 }
