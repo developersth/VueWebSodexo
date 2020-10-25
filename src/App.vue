@@ -81,7 +81,7 @@
                 <!-- Message Start -->
                 <div class="media">
                   <img
-                    src="/dist/img/user3-128x128.jpg"
+                    src="https://scontent.fbkk22-2.fna.fbcdn.net/v/t1.0-9/121965360_3638632652849634_5797198974255148906_o.jpg?_nc_cat=105&ccb=2&_nc_sid=09cbfe&_nc_eui2=AeEnvgPRp4iiZWTUzTIdblpem_u6qif4YR2b-7qqJ_hhHXmVoVpfuqKn_MUFMSkg8xKcvg0SNhA7wz3Gq3aHdJrS&_nc_ohc=2mNqBAfnDicAX9r7K5K&_nc_ht=scontent.fbkk22-2.fna&oh=ddf7c55f2192ded1747fe4b9d3983e32&oe=5FBA8B8F"
                     alt="User Avatar"
                     class="img-size-50 img-circle mr-3"
                   />
@@ -165,7 +165,7 @@
             class="brand-image img-circle elevation-3"
             style="opacity: 0.8"
           />
-          <span class="brand-text font-weight-light">SODEXO</span>
+          <span class="brand-text font-weight-light">Reserve</span>
         </a>
 
         <!-- Sidebar -->
@@ -174,7 +174,7 @@
           <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
               <img
-                src="/dist/img/user2-160x160.jpg"
+                src="https://scontent.fbkk22-2.fna.fbcdn.net/v/t1.0-9/121965360_3638632652849634_5797198974255148906_o.jpg?_nc_cat=105&ccb=2&_nc_sid=09cbfe&_nc_eui2=AeEnvgPRp4iiZWTUzTIdblpem_u6qif4YR2b-7qqJ_hhHXmVoVpfuqKn_MUFMSkg8xKcvg0SNhA7wz3Gq3aHdJrS&_nc_ohc=2mNqBAfnDicAX9r7K5K&_nc_ht=scontent.fbkk22-2.fna&oh=ddf7c55f2192ded1747fe4b9d3983e32&oe=5FBA8B8F"
                 class="img-circle elevation-2"
                 alt="User Image"
               />

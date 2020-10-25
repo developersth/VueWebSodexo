@@ -102,7 +102,7 @@
                       <div class="form-group col-sm-4 col-md-3 padding-small">
                         <label>From</label>
                         <div class="input-group date">
-                            <date-picker
+                          <date-picker
                             lang="en"
                             type="date"
                             v-model="start_date"
@@ -113,14 +113,14 @@
                       <div class="form-group col-sm-4 col-md-3 padding-small">
                         <label>To</label>
                         <div class="input-group date">
-                            <div class="input-group date">
+                          <div class="input-group date">
                             <date-picker
-                            lang="en"
-                            type="date"
-                            v-model="end_date"
-                            format="DD-MM-YYYY"
-                          ></date-picker>
-                        </div>
+                              lang="en"
+                              type="date"
+                              v-model="end_date"
+                              format="DD-MM-YYYY"
+                            ></date-picker>
+                          </div>
                         </div>
                       </div>
                       <div class="form-group col-sm-4 col-md-3 padding-small">
@@ -162,19 +162,32 @@
                           </tr>
                         </thead>
                         <tbody>
-                          <tr v-if="!booking_item">No Data Not Found</tr>
-                          <tr v-for="(item,index) in booking_item" v-bind:key="index">
-                            <td>{{item.book_id}}</td>
-                            <td>{{item.reservation_date+" "+item.reserv_time}}</td>
-                            <td>{{item.job_title}}</td>
-                            <td>{{item.driver_name}}</td>
-                            <td>{{item.mobile_name}}</td>
+                          <tr v-if="!booking_item">
+                            No Data Not Found
+                          </tr>
+                          <tr
+                            v-for="(item, index) in booking_item"
+                            v-bind:key="index"
+                          >
+                            <td>{{ item.book_id }}</td>
                             <td>
-                              <label class="badge bg-success">{{item.status_name}}</label>
+                              {{
+                                item.reservation_date + " " + item.reserv_time
+                              }}
+                            </td>
+                            <td>{{ item.job_title }}</td>
+                            <td>{{ item.driver_name }}</td>
+                            <td>{{ item.mobile_name }}</td>
+                            <td>
+                              <label class="badge bg-success">{{
+                                item.status_name
+                              }}</label>
                             </td>
                             <td class="text-center">
-                            <button class="btn btn-info btn-sm">Edit</button>
-                            <button class="btn btn-danger btn-sm ml-2">Delete</button>
+                              <button class="btn btn-info btn-sm" @click="edit_modal(item.book_id)">Edit</button>
+                              <button class="btn btn-danger btn-sm ml-2">
+                                Delete
+                              </button>
                             </td>
                           </tr>
                         </tbody>
@@ -320,7 +333,7 @@
           </div>
         </div>
         <div class="row">
-            <div class="col-sm-6">
+          <div class="col-sm-6">
             <!-- text input -->
             <div class="form-group">
               <label>{{ $t("booking.assing_to_mobile") }}</label>
@@ -340,9 +353,13 @@
             <!-- text input -->
             <div class="form-group">
               <label>{{ $t("booking.job_title") }}</label>
-                 <select id="booking_status" v-model="form.job_title" class="form-control">
-                    <option value="Reserve Booking">Reserve Booking</option>
-                </select>
+              <select
+                id="booking_status"
+                v-model="form.job_title"
+                class="form-control"
+              >
+                <option value="Reserve Booking">Reserve Booking</option>
+              </select>
             </div>
           </div>
           <div class="col-sm-12">
@@ -405,7 +422,7 @@
                   ></span>
                 </div>
                 <input
-                  type="text"
+                  type="number"
                   class="form-control"
                   v-model="form.contact_mobile"
                   data-inputmask='"mask": "(999) 999-9999"'
@@ -436,13 +453,15 @@
     <b-modal id="modal-machine" size="lg" title="Machine List">
       <table class="table table-hover">
         <tbody>
-          <tr v-if="machine_item.length===0">No Data Not Found </tr>
+          <tr v-if="machine_item.length === 0">
+            No Data Not Found
+          </tr>
           <tr v-for="(item, index) in machine_item" v-bind:key="index">
             <td style="width: 50px">
               <img :src="item.url" height="120" width="160" />
             </td>
             <td>
-               <div>
+              <div>
                 <h6>ID : {{ item._id }}</h6>
               </div>
               <div>
@@ -462,7 +481,8 @@
             </td>
             <td style="text-align: right">
               <button
-                class="btn btn-primary mt-4 px-2" @click="select_machine(item._id)"
+                class="btn btn-primary mt-4 px-2"
+                @click="select_machine(item._id)"
                 :disabled="!item.book_status"
               >
                 <i class="fas fa-check-circle"> Reserve</i>
@@ -483,20 +503,22 @@ const util = new Utility();
 export default {
   data() {
     return {
-      action:'A',
-      status:'',
-      start_date:new Date(),
-      end_date:new Date(),
+      action: "A",
+      status: "",
+      book_id:"",
+      start_date: new Date(),
+      end_date: new Date(),
       validateNames: [],
-      keyword:"",
+      keyword: "",
       HOST_URL: env.HOST_URL,
       machine_item: {},
       users_item: {},
       hospital_item: {},
-      booking_item:[],
+      booking_item: [],
+      mobile_item: [],
       form: {
         machine_id: "",
-        driver_id:"",
+        driver_id: "",
         mobile_id: "",
         job_title: "Reserve Booking",
         location: "",
@@ -513,33 +535,63 @@ export default {
       },
     };
   },
-  mounted: function () {
-    this.getAllBooking()
+  mounted: function() {
+    this.getAllBooking();
   },
   methods: {
-    add_modal(){
-      this.action='A'
+    add_modal() {
+      this.action = "A";
       this.getAll_hospital();
       this.getAll_users();
-      this.$bvModal.show('modal-booking')
+      this.$bvModal.show("modal-booking");
     },
-    edit_modal(){
-      this.action='E'
-      this.$bvModal.show('modal-booking')
+    async edit_modal(book_id) {
+      this.action = "E"
+      this.book_id=book_id
+      this.getAll_hospital()
+      this.getAll_users()
+        await service.getOne_booking(book_id)
+         .then((res) => {
+           this.form.reservation_date=res.reservation_date
+           this.form.reservation_time_start=res.reservation_time_start
+           this.form.reservation_time_end=res.reservation_time_end
+           this.form.machine_id=res.machine_id
+           this.form.driver_id=res.driver_id
+           this.form.mobile_id=res.mobile_id
+           this.form.location=res.location
+           this.form.hospital_id=res.hospital_id
+           this.form.contact_person=res.contact_person
+           this.form.contact_mobile=res.contact_mobile
+           this.form.detail=res.detail
+           this.$bvModal.show("modal-booking")
+        })
+        .catch((e) => {
+          console.log(e);
+          this.$swal({
+            position: "top-end",
+            icon: "warning",
+            title: "warning",
+            text: e,
+            showConfirmButton: false,
+            timer: 3000,
+          });
+        });
     },
-    async getAllBooking(){
-      const body={
-        status:this.status,
-        start_date:util.format_date(this.start_date),
-        end_date:util.format_date(this.end_date),
-        keyword:this.keyword,
-        lang :localStorage.getItem('lang')||'en'
-      }
-      await service.getAllBooking(body).then((response) => {this.booking_item = response;})
+    async getAllBooking() {
+      const body = {
+        status: this.status,
+        start_date: util.format_date(this.start_date),
+        end_date: util.format_date(this.end_date),
+        keyword: this.keyword,
+        lang: localStorage.getItem("lang") || "en",
+      };
+      await service.getAllBooking(body).then((response) => {
+        this.booking_item = response;
+      });
     },
-    select_machine(id){
-       this.form.machine_id=id
-       this.hideModalMachine();
+    select_machine(id) {
+      this.form.machine_id = id;
+      this.hideModalMachine();
     },
     showModalMachine() {
       this.validateNames = [];
@@ -570,7 +622,7 @@ export default {
       this.$bvModal.show("modal-machine");
     },
     hideModalMachine() {
-       this.$bvModal.hide("modal-machine")
+      this.$bvModal.hide("modal-machine");
     },
     string_to_date(vDate) {
       return new Date(vDate.replace(/(\d{2})-(\d{2})-(\d{4})/, "$2/$1/$3"));
@@ -582,7 +634,7 @@ export default {
           this.form.reservation_time_start
         ),
         reservation_time_end: util.format_time(this.form.reservation_time_end),
-        lant:this.$i18n.locale
+        lant: this.$i18n.locale,
       };
       await service
         .findMachineBooking(body)
@@ -668,14 +720,13 @@ export default {
       }
       // Push the name to submitted names
       this.booking_reserve();
-
     },
     checkFormValidity() {
       this.validateNames = [];
       if (!this.form.reservation_date)
         this.validateNames.push({ message: "กรุณากรอก วันที่จองด้วยครับ!" });
       //console.log(this.$moment(dateNow).format("dddd, MMMM Do YYYY"))
-      if (this.form.reservation_date){
+      if (this.form.reservation_date) {
         let reservation_date = util.format_date(this.form.reservation_date);
         let dateNow = util.format_date(new Date());
         if (reservation_date < dateNow)
@@ -684,7 +735,9 @@ export default {
       if (!this.form.reservation_time_start)
         this.validateNames.push({ message: "กรุณากรอก เวลาเริ่มจองด้วยครับ!" });
       if (!this.form.machine_id)
-        this.validateNames.push({ message: "กรุณากรอก เลือกเครื่องที่ต้องการจองด้วยครับ!" });
+        this.validateNames.push({
+          message: "กรุณากรอก เลือกเครื่องที่ต้องการจองด้วยครับ!",
+        });
       if (!this.form.reservation_time_end)
         this.validateNames.push({
           message: "กรุณากรอก เวลาสิ้นสุดการจองด้วยครับ!",
@@ -696,7 +749,9 @@ export default {
           });
       }
       if (!this.form.hospital_id)
-        this.validateNames.push({ message: "กรุณากรอก ชื่อสถานพยาบาลด้วยครับ!" });
+        this.validateNames.push({
+          message: "กรุณากรอก ชื่อสถานพยาบาลด้วยครับ!",
+        });
       if (!this.form.contact_person)
         this.validateNames.push({ message: "กรุณากรอก คนที่ติดต่อด้วยครับ!" });
       if (!this.form.contact_mobile)
@@ -721,20 +776,20 @@ export default {
         return true;
       }
     },
-    resetModal(){
-      this.form.reservation_date=new Date()
-      this.form.reservation_time_start=""
-      this.form.reservation_time_end=""
-      this.form.machine_id=""
-      this.form.machine_id=""
-      this.form.driver_id=""
-      this.form.mobile_id=""
-      this.form.job_title="Reserve Booking"
-      this.form.location=""
-      this.form.hospital_id=""
-      this.form.contact_person=""
-      this.form.contact_mobile=""
-      this.form.detail=""
+    resetModal() {
+      this.form.reservation_date = new Date();
+      this.form.reservation_time_start = "";
+      this.form.reservation_time_end = "";
+      this.form.machine_id = "";
+      this.form.machine_id = "";
+      this.form.driver_id = "";
+      this.form.mobile_id = "";
+      this.form.job_title = "Reserve Booking";
+      this.form.location = "";
+      this.form.hospital_id = "";
+      this.form.contact_person = "";
+      this.form.contact_mobile = "";
+      this.form.detail = "";
     },
     async booking_reserve() {
       const body = {
@@ -769,8 +824,8 @@ export default {
               timer: 1500,
             });
             this.$bvModal.hide("modal-booking");
-            this.getAllBooking()
-            this.resetModal()
+            this.getAllBooking();
+            this.resetModal();
           } else {
             this.$swal({
               position: "top-end",
@@ -805,5 +860,4 @@ export default {
   },
 };
 </script>
-<style>
-</style>
+<style></style>
