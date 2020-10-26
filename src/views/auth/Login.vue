@@ -74,7 +74,7 @@
    },
    validate_login(){
      if (this.username==='admin'&&this.password==='admin')
-       this.$router.push(this.$i18n.locale+'/home')
+       this.$router.push('/')
      else{
          this.$swal({position: "top-end",icon: "warning",title: "Warning",text: 'Username Password Incorect',showConfirmButton: false, timer: 2000}); 
      }

@@ -219,7 +219,7 @@
       id="modal-booking"
       header-bg-variant="primary"
       size="lg"
-      title="Add Booking"
+      :title="getActionName+` Booking`"
       @ok="handleOk"
       no-close-on-backdrop
     >
@@ -456,7 +456,7 @@
           <tr v-if="machine_item.length === 0">
             No Data Not Found
           </tr>
-          <tr v-for="(item, index) in machine_item" v-bind:key="index">
+          <tr v-for="(item, index) in machine_item" v-bind:key="index" >
             <td style="width: 50px">
               <img :src="item.url" height="120" width="160" />
             </td>
@@ -535,12 +535,21 @@ export default {
       },
     };
   },
+  computed:{
+    getActionName(){
+      if (this.action==='A')
+        return 'Add'
+      else
+        return 'Edit'
+    }
+  },
   mounted: function() {
     this.getAllBooking();
   },
   methods: {
     add_modal() {
       this.action = "A";
+      this.resetModal()
       this.getAll_hospital();
       this.getAll_users();
       this.$bvModal.show("modal-booking");
@@ -552,9 +561,13 @@ export default {
       this.getAll_users()
         await service.getOne_booking(book_id)
          .then((res) => {
-           this.form.reservation_date=res.reservation_date
-           this.form.reservation_time_start=res.reservation_time_start
-           this.form.reservation_time_end=res.reservation_time_end
+           var reservation_date = new Date(res.reservation_date)
+           var reservation_time_start = new Date(res.reservation_date +' '+res.reservation_time_start)
+           var reservation_time_end = new Date(res.reservation_date +' '+res.reservation_time_end)
+
+           this.form.reservation_date=reservation_date
+           this.form.reservation_time_start=reservation_time_start
+           this.form.reservation_time_end=reservation_time_end
            this.form.machine_id=res.machine_id
            this.form.driver_id=res.driver_id
            this.form.mobile_id=res.mobile_id
@@ -719,7 +732,10 @@ export default {
         return;
       }
       // Push the name to submitted names
-      this.booking_reserve();
+      if (this.action==='A')
+        this.booking_reserve();
+      else 
+        this.booking_edit();
     },
     checkFormValidity() {
       this.validateNames = [];
@@ -804,9 +820,7 @@ export default {
         contact_mobile: this.form.contact_mobile,
         detail: this.form.detail,
         reservation_date: util.format_date(this.form.reservation_date),
-        reservation_time_start: util.format_time(
-          this.form.reservation_time_start
-        ),
+        reservation_time_start: util.format_time(this.form.reservation_time_start),
         reservation_time_end: util.format_time(this.form.reservation_time_end),
         reservation_by: this.$session.get("name"),
         update_by: "test",
@@ -834,6 +848,61 @@ export default {
               text: res.message,
               showConfirmButton: false,
               timer: 2000,
+            });
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+          this.$swal({
+            position: "top-end",
+            icon: "warning",
+            title: "warning",
+            text: e,
+            showConfirmButton: false,
+            timer: 3000,
+          });
+        });
+    },
+      async booking_edit(){
+      const body = {
+        machine_id: this.form.machine_id,
+        driver_id: this.form.driver_id,
+        mobile_id: this.form.mobile_id,
+        job_title: this.form.job_title,
+        location: this.form.location,
+        hospital_id: this.form.hospital_id,
+        hospital_name: this.form.hospital_name,
+        contact_person: this.form.contact_person,
+        contact_mobile: this.form.contact_mobile,
+        detail: this.form.detail,
+        reservation_date: util.format_date(this.form.reservation_date),
+        reservation_time_start: util.format_time(this.form.reservation_time_start),
+        reservation_time_end: util.format_time(this.form.reservation_time_end),
+        reservation_by: this.$session.get("name"),
+        update_by: "test",
+      };
+       await service.update_booking(this.book_id,body)
+         .then((res) => {
+          if (res.success) {
+            this.$swal({
+              position: "top-end",
+              icon: "success",
+              title: "Information",
+              text: res.message,
+              showConfirmButton: false,
+              timer: 1500,
+            });
+             this.$bvModal.hide("modal-booking");
+             this.resetModal()
+             this.getAllBooking()
+          } else {
+            this.$swal({
+              position: "top-end",
+              icon: "warning",
+              title: "Warning",
+              text: res.message,
+              showConfirmButton: false,
+              timer: 1500,
             });
           }
         })

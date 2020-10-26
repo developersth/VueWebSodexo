@@ -21,7 +21,10 @@ class apiService extends api {
     const { data } = await this.create(env.baseURL+"booking", body,  this.setHeader(env.Authorization));
     return data;
   }
-  
+  async update_booking(id,body) {
+    const { data } = await this.update(env.baseURL+"booking/"+id,body,  this.setHeader(env.Authorization));
+    return data;
+  }
   async getAllBooking(body) {  
     const { data } = await this.get(env.baseURL+"booking/find-booking", body,  this.setHeader(env.Authorization));
     return data;
