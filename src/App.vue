@@ -144,13 +144,12 @@
           </li>
             <li class="nav-item">
              <a class="nav-link"  href="#" role="button">
-               <select class="form-control" style="hight:20px" v-model="lang" @change="handleChange($event)">
-                 <option value="en">Englist</option>
-                  <option value="th">Thai</option>
+               <select class="form-control"  v-model="lang" @change="handleChange($event)">
+                 <option value="en"> Englist</option>
+                  <option value="th"> Thai</option>
                </select>
             </a>
           </li>
-           
         </ul>
       </nav>
       <!-- /.navbar -->
@@ -212,39 +211,17 @@
               <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
               <li class="nav-item menu-open">
-                <a href="#" class="nav-link active">
-                  <i class="nav-icon fas fa-tachometer-alt"></i>
-                  <p>
-                    Starter Pages
-                    <i class="right fas fa-angle-left"></i>
-                  </p>
-                </a>
-                <ul class="nav nav-treeview">
-                  <li class="nav-item">
-                    <a href="#" class="nav-link active">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Active Page</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Inactive Page</p>
-                    </a>
-                  </li>
-                </ul>
-              </li>
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <router-link :to="{name:'home',params:{lang:this.$i18n.locale}}"  class="nav-link">
                   <i class="nav-icon fas fa-th"></i>
                   <p>
-                    Simple Link
-                    <span class="right badge badge-danger">New</span>
+                    
+                Dashboard
                   </p>
-                </a>
+                </router-link>
               </li>
               <li class="nav-item">
-                <router-link :to="{name:'login',params:{lang:this.$i18n.locale}}" class="nav-link">
+                <router-link :to="{name:'login',params:{lang:this.$i18n.locale}}" active-class="active" class="nav-link">
                   <i class="nav-icon fas fa-th"></i>
                   <p>
                     Login
@@ -253,20 +230,27 @@
                 </router-link>
               </li>
                    <li class="nav-item">
-                <router-link :to="`/${$i18n.locale}/booking`" class="nav-link">
-                  <i class="nav-icon fas fa-th"></i>
+                <router-link :to="`/${$i18n.locale}/booking`" active-class="active"  class="nav-link">
+                  <i class="nav-icon fas fa-book"></i>
                   <p>
                     Booking
-                    <span class="right badge badge-danger">Booking</span>
+                    <span class="right badge badge-danger">5</span>
                   </p>
                 </router-link>
               </li>
-                     <li class="nav-item">
-                <router-link :to="`/${$i18n.locale}/hospital`" class="nav-link">
-                  <i class="nav-icon fas fa-th"></i>
+              <li class="nav-item">
+                <router-link :to="`/${$i18n.locale}/hospital`" active-class="active"   class="nav-link">
+                  <i class="nav-icon far fa-hospital"></i>
                   <p>
                     Hospital
-                    <span class="right badge badge-danger">Booking</span>
+                  </p>
+                </router-link>
+              </li>
+              <li class="nav-item">
+                <router-link :to="`/${$i18n.locale}/users`" active-class="active"   class="nav-link">
+                <i class="nav-icon fas fa-users"></i>
+                  <p>
+                    Users
                   </p>
                 </router-link>
               </li>
@@ -301,7 +285,7 @@
         <!-- Default to the left -->
         <strong
           >Copyright &copy; 2020
-          <a href="https://line.me/ti/p/AtiaGDCxWZ">บริษัท เทคโซล จำกัด</a>.</strong
+          <a href="http://www.techsoul.co.th/" target="blank">techsoul.co.th</a>.</strong
         >
         All rights reserved.
       </footer>

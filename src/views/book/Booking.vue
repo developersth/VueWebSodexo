@@ -185,7 +185,7 @@
                             </td>
                             <td class="text-center">
                               <button class="btn btn-info btn-sm" @click="edit_modal(item.book_id)">Edit</button>
-                              <button class="btn btn-danger btn-sm ml-2">
+                              <button class="btn btn-danger btn-sm ml-2" @click="delete_data(item.book_id)">
                                 Delete
                               </button>
                             </td>
@@ -742,7 +742,7 @@ export default {
       if (!this.form.reservation_date)
         this.validateNames.push({ message: "กรุณากรอก วันที่จองด้วยครับ!" });
       //console.log(this.$moment(dateNow).format("dddd, MMMM Do YYYY"))
-      if (this.form.reservation_date) {
+      if (this.form.reservation_date&&this.action==='A') {
         let reservation_date = util.format_date(this.form.reservation_date);
         let dateNow = util.format_date(new Date());
         if (reservation_date < dateNow)
@@ -925,8 +925,34 @@ export default {
         this.form.hospital_name = this.hospital_item[objIndex].hospital_name;
         this.form.location = this.hospital_item[objIndex].address;
       }
+      if (id===''){
+         this.form.location ="";
+      }
     },
-  },
+   async delete_data(id){
+     this.$swal({
+        title: 'Are you sure?',
+        text: "คุณต้องการลบข้อมูลหรือไม่!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+             service.delete_booking(id)
+            .then((res) => {
+              if (res.success) {
+                 this.$swal('Deleted!',res.message,'success')
+                this.getAllBooking()
+              }else{
+                  this.$swal('Deleted!',res.message,'warning')
+              }
+            })
+        }
+      })
+   }
+  }
 };
 </script>
 <style></style>

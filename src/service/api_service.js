@@ -16,6 +16,10 @@ class apiService extends api {
     const  {data}  = await this.get(env.baseURL+"users", body, this.setHeader(env.Authorization));
     return data;
   }
+  async getAll_Users_search() {
+    const { data } = await this.get(env.baseURL+"users/search",  this.setHeader(env.Authorization));
+    return data;
+  }
   //booking
   async booking_reserve(body) {
     const { data } = await this.create(env.baseURL+"booking", body,  this.setHeader(env.Authorization));
@@ -41,6 +45,11 @@ class apiService extends api {
     const { data } = await this.get(env.baseURL+"booking/"+book_id,  this.setHeader(env.Authorization));
     return data;
   }
+  async delete_booking(id) {
+    const { data } = await this.delete(env.baseURL+"booking/"+id,  this.setHeader(env.Authorization));
+    return data;
+  }
+
   //hospital
   async create_hospital(body) {
     const { data } = await this.create(env.baseURL+"hospital", body,  this.setHeader(env.Authorization));
