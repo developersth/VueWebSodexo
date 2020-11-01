@@ -54,7 +54,7 @@
           this.$router.push({params: { lang: locale }})
        }
    },
-   txtFocus(name){
+   txtFocus(){
        //console.log(name)
        this.isActive=true
    },
