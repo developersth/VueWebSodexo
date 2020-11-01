@@ -579,7 +579,7 @@ export default {
            this.$bvModal.show("modal-booking")
         })
         .catch((e) => {
-          console.log(e);
+          //console.log(e);
           this.$swal({
             position: "top-end",
             icon: "warning",
@@ -655,7 +655,7 @@ export default {
           this.machine_item = response;
         })
         .catch((e) => {
-          console.log(e);
+          //console.log(e);
           this.$swal({
             position: "top-end",
             icon: "warning",
@@ -673,7 +673,7 @@ export default {
           this.machine_item = response;
         })
         .catch((e) => {
-          console.log(e);
+          //console.log(e);
           this.$swal({
             position: "top-end",
             icon: "warning",
@@ -691,7 +691,7 @@ export default {
           this.users_item = response;
         })
         .catch((e) => {
-          console.log(e);
+          //console.log(e);
           this.$swal({
             position: "top-end",
             icon: "warning",
@@ -709,7 +709,7 @@ export default {
           this.hospital_item = response;
         })
         .catch((e) => {
-          console.log(e);
+          //console.log(e);
           this.$swal({
             position: "top-end",
             icon: "warning",
@@ -852,7 +852,7 @@ export default {
           }
         })
         .catch((e) => {
-          console.log(e);
+          //console.log(e);
           this.$swal({
             position: "top-end",
             icon: "warning",
@@ -907,7 +907,7 @@ export default {
           }
         })
         .catch((e) => {
-          console.log(e);
+          //console.log(e);
           this.$swal({
             position: "top-end",
             icon: "warning",

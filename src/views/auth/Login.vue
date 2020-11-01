@@ -55,7 +55,7 @@
        }
    },
    txtFocus(name){
-       console.log(name)
+       //console.log(name)
        this.isActive=true
    },
    checkUsername(){

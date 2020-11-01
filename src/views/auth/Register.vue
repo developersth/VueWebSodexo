@@ -127,7 +127,7 @@
                
            })
            .catch(e => {
-               console.log(e);
+               //console.log(e);
                this.$swal({position: "top-end",icon: "warning",title: "warning",text: e,showConfirmButton: false,timer: 3000});
            });
    

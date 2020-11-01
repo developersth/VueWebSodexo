@@ -251,7 +251,7 @@
               this.users_items=res
            })
            .catch((e) => {
-             console.log(e);
+             //console.log(e);
              this.$swal({position: "top-end",icon: "warning",title: "warning",text: e,showConfirmButton: false,timer: 3000});
            });
        },
@@ -284,7 +284,7 @@
                this.$bvModal.show("modal-users")
            })
            .catch((e) => {
-             console.log(e);
+             //console.log(e);
              this.$swal({position: "top-end",icon: "warning",title: "warning",text: e,showConfirmButton: false,timer: 3000});
            });
        },
@@ -323,7 +323,7 @@
              }
            })
            .catch((e) => {
-             console.log(e);
+             //console.log(e);
              this.$swal({position: "top-end",icon: "warning",title: "Information",text: e,showConfirmButton: false,timer: 2000});
            });
        },
@@ -361,7 +361,7 @@
              }
            })
            .catch((e) => {
-               console.log(e);
+               //console.log(e);
                this.$swal({position: "top-end",icon: "warning",title: "Warning",text: e,showConfirmButton: false,timer: 2000});
            });
        }

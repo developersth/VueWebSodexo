@@ -316,7 +316,7 @@ export default {
            this.hospital_items=res
         })
         .catch((e) => {
-          console.log(e);
+          //console.log(e);
           this.$swal({
             position: "top-end",
             icon: "warning",
@@ -364,7 +364,7 @@ export default {
            this.$bvModal.show("modal-hospital")
         })
         .catch((e) => {
-          console.log(e);
+          //console.log(e);
           this.$swal({
             position: "top-end",
             icon: "warning",
@@ -421,7 +421,7 @@ export default {
           }
         })
         .catch((e) => {
-          console.log(e);
+          //console.log(e);
           this.$swal({
             position: "top-end",
             icon: "warning",
@@ -478,7 +478,7 @@ export default {
           }
         })
         .catch((e) => {
-          console.log(e);
+          //console.log(e);
           this.$swal({
             position: "top-end",
             icon: "warning",
