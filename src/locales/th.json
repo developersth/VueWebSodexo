@@ -33,5 +33,19 @@
     "reservation_date": "วันที่จอง",
     "reservation_time_start": "เวลาจองตั้งแต่",
     "reservation_time_end": "เวลาจองถึง"
+  },
+  "users": {
+    "title": "ข้อมูลผู้ใช้งาน",
+    "name":"ชื่อ-สกุล",
+    "username":"ชื่อเข้าใช้งาน",
+    "password":"รหัสผ่าน",
+    "mobile":"มือถือ",
+    "email":"อีเมล์",
+    "type":	"ประเภทผู้ใช้งาน",
+    "last_login":"เข้าใช้งานล่าสุด",
+    "status":"สถานะ",
+    "edit":"#"
   }
 }
+
+

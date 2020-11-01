@@ -30,7 +30,7 @@
                      <div class="card-header">
                         <div class="form-row">
                            <div class="col">
-                              <a href="#" class="h3"><b>ข้อมูลผู้ใช้งาน</b></a>
+                              <a href="#" class="h3"><b>{{ $t('users.title') }}</b></a>
                            </div>
                            <div class="col text-center">
                               <button type="button" data-toggle="modal" class="btn btn-success text-center" @click="showModal">
@@ -63,14 +63,14 @@
                                     <thead>
                                        <tr>
                                           <th>#</th>
-                                          <th>ชื่อ</th>
-                                          <th>ชื่อเข้าใช้งาน</th>
-                                          <th>เบอร์โทร </th>
-                                          <th>อีเมล์</th>
-                                          <th>ประเภท</th>
-                                          <th> เข้าใช้งานล่าสุด</th>
-                                          <th>สถานะ</th>
-                                          <th style="width:100px;" class="text-center ng-binding">แก้ไข</th>
+                                          <th>{{ $t('users.name') }}</th>
+                                          <th>{{ $t('users.username') }}</th>
+                                          <th>{{ $t('users.mobile') }}</th>
+                                          <th>{{ $t('users.email') }}</th>
+                                          <th>{{ $t('users.type') }}</th>
+                                          <th>{{ $t('users.last_login') }}</th>
+                                          <th>{{ $t('users.status') }}</th>
+                                          <th style="width:100px;" class="text-center ng-binding">{{ $t('users.edit') }}</th>
                                        </tr>
                                     </thead>
                                     <tbody>
@@ -99,18 +99,18 @@
                                        <div class="col-md-12">
                                           <div class="form-group">
                                              <label class="col-sm-3">
-                                                ชื่อ-สกุล <i class="text-danger">*</i>
+                                               {{$t('users.name')}} <i class="text-danger">*</i>
                                              </label>
-                                             <input type="text" class="form-control" v-model="name" placeholder="ระบุ ชื่อ-สกุล">
+                                             <input type="text" class="form-control" v-model="name" :placeholder="$t('users.name')">
                                           </div>
                                           <div class="form-group">
                                              <label class="col-sm-3">
-                                                ชื่อเข้าใช้งาน <i class="text-danger">*</i>
+                                                 {{$t('users.username') }}  <i class="text-danger">*</i>
                                              </label>
-                                             <input type="text"  name="username" v-model="username" required="true" class="form-control" placeholder="ระบุ Username">
+                                             <input type="text"  name="username" v-model="username" required="true" class="form-control" :placeholder="$t('users.username')">
                                           </div>
                                             <label class="col-sm-3">
-                                                รหัสผ่าน <i class="text-danger">*</i>
+                                                 {{$t('users.password') }} <i class="text-danger">*</i>
                                              </label>
                                           <div class="input-group mb-3">
                                              <input :type="passwordType"  v-model="password" class="form-control">
@@ -121,17 +121,17 @@
                                            </div>
                                           </div>
                                           <div class="form-group">
-                                             <label class="col-sm-3">อีเมล์</label>
+                                             <label class="col-sm-3">{{$t('users.email') }}</label>
                                              <input type="email"  v-model="email" class="form-control" placeholder="example@mail.com">
                                           </div>
                                           <div class="form-group">
-                                             <label class="col-sm-3"> เบอร์โทรศัพท์</label>
-                                             <input v-model="mobile" onkeypress='return event.charCode >= 48 && event.charCode <= 57' class="form-control" maxlength="10" placeholder="ระบุ เบอร์โทรศัพท์">
+                                             <label class="col-sm-3"> {{$t('users.mobile') }}</label>
+                                             <input v-model="mobile" onkeypress='return event.charCode >= 48 && event.charCode <= 57' class="form-control" maxlength="10" :placeholder="$t('users.mobile')">
                                           </div>
                                           <div class="form-group">
                                              <div class="row">
                                                 <div class="col-sm-8">
-                                                   <label>ประเภทผู้ใช้งาน</label>
+                                                   <label>{{$t('users.type') }}</label>
                                                    <select class="form-control" v-model="role_id">
                                                       <option value="">=== Select Role===</option>
                                                       <option v-for="(item,index) in UserRoleItems" v-bind:key="index" :value="item._id" >
@@ -141,7 +141,7 @@
                                                 </div>
                                                 <div class="col-sm-4">
                                                    <div class="form-group">
-                                                      <label>สถานะ</label>
+                                                      <label>{{ $t('users.status') }}</label>
                                                       <div></div>
                                                       <label class="switch">
                                                       <input type="checkbox" v-model="status">
@@ -223,15 +223,6 @@
        showModal(){
          this.action='A'
          this.$bvModal.show("modal-users")
-       },
-       resultGoogle(results){
-           this.hospital_name=results.name
-           this.address=results.formatted_address
-           this.tel=results.formatted_phone_number
-           var latitude = results.geometry.location.lat()
-           var longitude = results.geometry.location.lng()
-           this.lat=latitude
-           this.lng=longitude
        },
        resetModal(){
            this.name       = ""

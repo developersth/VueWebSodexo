@@ -13,17 +13,57 @@
          <!-- Right navbar links -->
          <ul class="navbar-nav ml-auto">
             <!-- Messages Dropdown Menu -->
+            <li class="nav-item">
+               <a class="nav-link"  href="#" role="button">
+                  <select class="form-control"  v-model="lang" @change="handleChange($event)">
+                     <option value="en"> Englist</option>
+                     <option value="th"> Thai</option>
+                  </select>
+               </a>
+            </li>
+
+            <!-- Notifications Dropdown Menu -->
             <li class="nav-item dropdown">
                <a class="nav-link" data-toggle="dropdown" href="#">
-                  <i>
-                     <div class="user-panel pb-3 mb-3 d-flex">
-                        <img
-                           src="/dist/img/user2-160x160.jpg"
-                           class="img-circle elevation-2"
-                           alt="User Image"
-                           />
-                     </div>
-                  </i>
+             <i class="far fa-bell fa-2x"></i>
+               <span class="badge badge-warning navbar-badge">15</span>
+               </a>
+               <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                  <span class="dropdown-header">15 Notifications</span>
+                  <div class="dropdown-divider"></div>
+                  <a href="#" class="dropdown-item">
+                  <i class="fas fa-envelope mr-2"></i> 4 new messages
+                  <span class="float-right text-muted text-sm">3 mins</span>
+                  </a>
+                  <div class="dropdown-divider"></div>
+                  <a href="#" class="dropdown-item">
+                  <i class="fas fa-users mr-2"></i> 8 friend requests
+                  <span class="float-right text-muted text-sm">12 hours</span>
+                  </a>
+                  <div class="dropdown-divider"></div>
+                  <a href="#" class="dropdown-item">
+                  <i class="fas fa-file mr-2"></i> 3 new reports
+                  <span class="float-right text-muted text-sm">2 days</span>
+                  </a>
+                  <div class="dropdown-divider"></div>
+                  <a href="#" class="dropdown-item dropdown-footer"
+                     >See All Notifications</a
+                     >
+               </div>
+            </li>
+            <li class="nav-item">
+               <a class="nav-link" data-widget="fullscreen" href="#" role="button">
+               <i class="fas fa-expand-arrows-alt fa-2x"></i>
+               </a>
+            </li>
+              <li class="nav-item dropdown">
+               <a class="nav-link" data-toggle="dropdown" href="#">
+                <div class="user-panel pb-3 mb-3 d-flex">
+                  <span class="mt-1">{{getFullName()}} </span>
+                  <div class="images">
+                        <img src="/dist/img/avatar2.png" alt="User Avatar" class="img-size-50 img-circle mr-3"/>
+                      </div>
+                </div>
                </a>
                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                   <a href="#" class="dropdown-item">
@@ -78,7 +118,7 @@
                      <!-- Message Start -->
                      <div class="media">
                         <img
-                           src="https://scontent.fbkk22-2.fna.fbcdn.net/v/t1.0-9/121965360_3638632652849634_5797198974255148906_o.jpg?_nc_cat=105&ccb=2&_nc_sid=09cbfe&_nc_eui2=AeEnvgPRp4iiZWTUzTIdblpem_u6qif4YR2b-7qqJ_hhHXmVoVpfuqKn_MUFMSkg8xKcvg0SNhA7wz3Gq3aHdJrS&_nc_ohc=2mNqBAfnDicAX9r7K5K&_nc_ht=scontent.fbkk22-2.fna&oh=ddf7c55f2192ded1747fe4b9d3983e32&oe=5FBA8B8F"
+                           src="/dist/img/avatar2.png"
                            alt="User Avatar"
                            class="img-size-50 img-circle mr-3"
                            />
@@ -102,48 +142,6 @@
                      >See All Messages</a
                      >
                </div>
-            </li>
-            <!-- Notifications Dropdown Menu -->
-            <li class="nav-item dropdown">
-               <a class="nav-link" data-toggle="dropdown" href="#">
-               <i class="far fa-bell"></i>
-               <span class="badge badge-warning navbar-badge">15</span>
-               </a>
-               <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                  <span class="dropdown-header">15 Notifications</span>
-                  <div class="dropdown-divider"></div>
-                  <a href="#" class="dropdown-item">
-                  <i class="fas fa-envelope mr-2"></i> 4 new messages
-                  <span class="float-right text-muted text-sm">3 mins</span>
-                  </a>
-                  <div class="dropdown-divider"></div>
-                  <a href="#" class="dropdown-item">
-                  <i class="fas fa-users mr-2"></i> 8 friend requests
-                  <span class="float-right text-muted text-sm">12 hours</span>
-                  </a>
-                  <div class="dropdown-divider"></div>
-                  <a href="#" class="dropdown-item">
-                  <i class="fas fa-file mr-2"></i> 3 new reports
-                  <span class="float-right text-muted text-sm">2 days</span>
-                  </a>
-                  <div class="dropdown-divider"></div>
-                  <a href="#" class="dropdown-item dropdown-footer"
-                     >See All Notifications</a
-                     >
-               </div>
-            </li>
-            <li class="nav-item">
-               <a class="nav-link" data-widget="fullscreen" href="#" role="button">
-               <i class="fas fa-expand-arrows-alt"></i>
-               </a>
-            </li>
-            <li class="nav-item">
-               <a class="nav-link"  href="#" role="button">
-                  <select class="form-control"  v-model="lang" @change="handleChange($event)">
-                     <option value="en"> Englist</option>
-                     <option value="th"> Thai</option>
-                  </select>
-               </a>
             </li>
          </ul>
       </nav>
@@ -289,10 +287,15 @@
      data() {
        return {
          menuOpen: false,
-         lang:localStorage.getItem('lang')||'en'
+         lang:localStorage.getItem('lang')||'en',
+         fullname: ""
        }
      },
      methods: {
+       getFullName(){
+         this.fullname= this.$session.exists()?this.fullname=this.$session.get('name'):""
+         return this.fullname
+       },
        toggleMenu() {
          this.menuOpen = !this.menuOpen
        },

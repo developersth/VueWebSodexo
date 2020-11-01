@@ -33,5 +33,17 @@
     "reservation_date": "Reservation Date",
     "reservation_time_start":"Reservation time start",
     "reservation_time_end": "Reservation time end"
+  },
+  "users": {
+    "title": "User Detail",
+    "name":"Name",
+    "username":"Username",
+    "password":"Password",
+    "mobile":"Mobile",
+    "email":"Email",
+    "type":	"Type",
+    "last_login":"Last Login",
+    "status":"Active",
+    "edit":"#"
   }
 }

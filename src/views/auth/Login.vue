@@ -1,7 +1,7 @@
 <template>
    <div class="login">
       <img class="wave" src="/dist/img/wave.png">
-      <div class="container">
+    <div class="container">
          <div class="img">
             <img src="/dist/img/bg.svg">
          </div>
@@ -35,6 +35,8 @@
    </div>
 </template>
 <script>
+   import api_service from '@/service/api_service';
+   const service = new api_service();
    export default {
      data() {
        return {
@@ -58,6 +60,34 @@
        //console.log(name)
        this.isActive=true
    },
+    async validate_login() {
+         const body ={
+           username:this.username,
+           password:this.password
+         }
+           await service.users_login(body)
+            .then((res) =>   {
+               if (res.success) {
+                this.$session.start()
+                this.$session.set('jwt', res.token)
+                this.$session.set('username', res.username)
+                this.$session.set('name', res.name)
+                this.$session.set('email', res.email)
+				this.$session.set('mobile', res.mobile)
+				this.$session.set('role_name', res.role_name)
+				this.$session.set('role_type', res.role_type)
+				this.$swal({position: "top-end",icon: "success",title: "Login",text: res.message,showConfirmButton: false,timer: 3000});
+				this.$router.push('/')
+               }else{
+                 this.$swal({position: "top-end",icon: "warning",title: "Information",text: res.message,showConfirmButton: false,timer: 3000});  
+               }
+               
+           })
+           .catch(e => {
+               console.log(e);
+               this.$swal({position: "top-end",icon: "warning",title: "warning",text: e,showConfirmButton: false,timer: 3000});
+           });
+	},
    checkUsername(){
        if (this.username.length>0)
            this.focusedUser=true
@@ -72,13 +102,6 @@
            this.focusedPass=false
        return this.focusedPass
    },
-   validate_login(){
-     if (this.username==='admin'&&this.password==='admin')
-       this.$router.push('/')
-     else{
-         this.$swal({position: "top-end",icon: "warning",title: "Warning",text: 'Username Password Incorect',showConfirmButton: false, timer: 2000}); 
-     }
-   }
    }
    }
 </script>
@@ -102,8 +125,8 @@ body{
 }
 
 .container{
-    width: 80vw;
-    height: 80vh;
+    width: 100vw;
+    height: 60vh;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-gap :7rem;
@@ -287,7 +310,7 @@ a:hover{
 	}
 }
 
-@media screen and (max-width: 900px){
+@media screen and (max-width: 1200px){
 	.container{
 		grid-template-columns: 1fr;
 	}
