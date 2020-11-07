@@ -320,9 +320,9 @@
             <div class="form-group">
               <label>{{ $t("booking.assing_to") }}</label>
               <select class="form-control" v-model="form.driver_id">
-                <option value="">=== Select Driver ===</option>
+                <option value="0">=== Select Driver ===</option>
                 <option
-                  v-for="(items, index) in users_item"
+                  v-for="(items, index) in driver_item"
                   v-bind:key="index"
                   :value="items._id"
                 >
@@ -338,9 +338,9 @@
             <div class="form-group">
               <label>{{ $t("booking.assing_to_mobile") }}</label>
               <select class="form-control" v-model="form.mobile_id">
-                <option value="">=== Select Mobile Team ===</option>
+                <option value="0">=== Select Mobile Team ===</option>
                 <option
-                  v-for="(items, index) in users_item"
+                  v-for="(items, index) in mobile_item"
                   v-bind:key="index"
                   :value="items._id"
                 >
@@ -512,7 +512,7 @@ export default {
       keyword: "",
       HOST_URL: env.HOST_URL,
       machine_item: {},
-      users_item: {},
+      driver_item: {},
       hospital_item: {},
       booking_item: [],
       mobile_item: [],
@@ -551,14 +551,16 @@ export default {
       this.action = "A";
       this.resetModal()
       this.getAll_hospital();
-      this.getAll_users();
+      this.getAllDriver();
+      this.getAllMobile()
       this.$bvModal.show("modal-booking");
     },
     async edit_modal(book_id) {
       this.action = "E"
       this.book_id=book_id
       this.getAll_hospital()
-      this.getAll_users()
+      this.getAllDriver()
+      this.getAllMobile()
         await service.getOne_booking(book_id)
          .then((res) => {
            var reservation_date = new Date(res.reservation_date)
@@ -684,11 +686,29 @@ export default {
           });
         });
     },
-    async getAll_users() {
+    async getAllDriver() {
       await service
-        .getAll_users()
+        .getUserType('driver')
         .then((response) => {
-          this.users_item = response;
+          this.driver_item = response
+        })
+        .catch((e) => {
+          //console.log(e);
+          this.$swal({
+            position: "top-end",
+            icon: "warning",
+            title: "warning",
+            text: e,
+            showConfirmButton: false,
+            timer: 2000,
+          });
+        });
+    },
+   async getAllMobile() {
+      await service
+        .getUserType('mobile')
+        .then((response) => {
+          this.mobile_item = response
         })
         .catch((e) => {
           //console.log(e);
@@ -798,8 +818,8 @@ export default {
       this.form.reservation_time_end = "";
       this.form.machine_id = "";
       this.form.machine_id = "";
-      this.form.driver_id = "";
-      this.form.mobile_id = "";
+      this.form.driver_id = "0";
+      this.form.mobile_id = "0";
       this.form.job_title = "Reserve Booking";
       this.form.location = "";
       this.form.hospital_id = "";

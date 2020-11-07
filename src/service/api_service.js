@@ -69,7 +69,11 @@ class apiService extends api {
     const { data } = await this.delete(env.baseURL+"booking/"+id);
     return data;
   }
-
+  async getUserType(name) {
+    const  {data}  = await this.get(env.baseURL+"users/getUserType/"+name);
+    return data;
+  }
+  
   //hospital
   async create_hospital(body) {
     const { data } = await this.create(env.baseURL+"hospital", body);
