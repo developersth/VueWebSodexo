@@ -20,7 +20,8 @@ const routes = [
       {path: 'register',name: 'register',component: () => import('../views/auth/Register.vue')},
       {path: 'booking',name: 'booking',component: () => import('../views/book/Booking.vue')},
       {path: 'hospital',name: 'hospital',component: () => import('../views/settings/Hospital.vue')},
-      {path: 'users',name: 'users',component: () => import('../views/auth/Users.vue')}
+      {path: 'users',name: 'users',component: () => import('../views/auth/Users.vue')},
+      {path: 'booking-customer',name: 'booking-customer',component: () => import('../views/book/BookingCustomer.vue')}
     ]
   }
 ]

@@ -69,7 +69,8 @@
             .then((res) =>   {
                if (res.success) {
                 this.$session.start()
-                this.$session.set('jwt', res.token)
+				this.$session.set('jwt', res.token)	
+				this.$session.set('user_id', res.user_id)
                 this.$session.set('username', res.username)
                 this.$session.set('name', res.name)
                 this.$session.set('email', res.email)

@@ -226,6 +226,14 @@
                         </p>
                      </router-link>
                   </li>
+                 <li class="nav-item">
+                     <router-link :to="`/${$i18n.locale}/booking-customer`" active-class="active"  class="nav-link">
+                       <i class="nav-icon fas fa-book-medical"></i>
+                        <p>
+                           My Booking
+                        </p>
+                     </router-link>
+                  </li>
                   <li class="nav-item">
                      <router-link :to="`/${$i18n.locale}/hospital`" active-class="active"   class="nav-link">
                         <i class="nav-icon far fa-hospital"></i>
