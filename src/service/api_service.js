@@ -104,12 +104,11 @@ class apiService extends api {
     const { data } = await this.delete(env.baseURL+"hospital/"+id);
     return data;
   }
-  //machine
-  async getAllMachine() {
+   //machine
+   async getAllMachine() {
     const { data } = await this.get(env.baseURL+"machine");
     return data;
   }
-  
 }
 
 export default apiService;

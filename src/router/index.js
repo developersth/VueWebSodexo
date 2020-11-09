@@ -21,11 +21,8 @@ const routes = [
       {path: 'booking',name: 'booking',component: () => import('../views/book/Booking.vue')},
       {path: 'hospital',name: 'hospital',component: () => import('../views/settings/Hospital.vue')},
       {path: 'users',name: 'users',component: () => import('../views/auth/Users.vue')},
-<<<<<<< HEAD
       {path: 'machine',name: 'machine',component: () => import('../views/settings/Machine.vue')},
-=======
       {path: 'booking-customer',name: 'booking-customer',component: () => import('../views/book/BookingCustomer.vue')}
->>>>>>> b971d57bf25c855fdbe7c2523b262fee9e7e0290
     ]
   }
 ]

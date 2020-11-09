@@ -123,10 +123,10 @@
                             <th scope="col">#</th>
                           </tr>
                         </thead>
-                        <tbody>
-                          <tr v-if="!booking_item">
+                       <tbody v-if="booking_item.length===0">
                             No Data Not Found
-                          </tr>
+                        </tbody>
+                        <tbody>
                           <tr
                             v-for="(item, index) in booking_item"
                             v-bind:key="index"

@@ -13,25 +13,12 @@
          <!-- Right navbar links -->
          <ul class="navbar-nav ml-auto">
             <!-- Messages Dropdown Menu -->
-<<<<<<< HEAD
-
-          <select class="form-control"  v-model="lang" @change="handleChange($event)">
-              <option style="background-image:url('/dist/img/flag/flag_en.png');" value="en"> Englist</option>
-              <option value="th"> Thai</option>                
-          </select> 
-=======
->>>>>>> b971d57bf25c855fdbe7c2523b262fee9e7e0290
 
             <li class="nav-item dropdown">
                <a class="nav-link" data-toggle="dropdown" href="#">
-<<<<<<< HEAD
-             <i class="far fa-bell fa-lg"></i>
-               <span class="badge badge-warning navbar-badge">15</span>
-=======
                <img :src="flag" style="width:30px" class="img"/>
                 <span class="mt-1 ml-1">{{flag_name}} </span>
                 <b class="caret"></b>
->>>>>>> b971d57bf25c855fdbe7c2523b262fee9e7e0290
                </a>
                <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
                   <div class="dropdown-divider"></div>
@@ -45,28 +32,12 @@
                
                </div>
             </li>
-<<<<<<< HEAD
-            <li class="nav-item">
-               <a class="nav-link" data-widget="fullscreen" href="#" role="button">
-               <i class="fas fa-expand-arrows-alt fa-lg"></i>
-               </a>
-            </li>
-              <li class="nav-item dropdown">
-               <a class="nav-link" data-toggle="dropdown" href="#">
-                <div class="user-panel pb-3 mb-3 d-flex">
-                  <span class="mt-1">{{getUsername()}} </span>
-                  <div class="images">
-                        <img src="/dist/img/avatar2.png" alt="User Avatar" class="img-size-50 img-circle mr-3"/>
-                      </div>
-                </div>
-=======
 
             <!-- Notifications Dropdown Menu -->
             <li class="nav-item dropdown">
                <a class="nav-link" data-toggle="dropdown" href="#">
              <i class="far fa-bell fa-2x"></i>
                <span class="badge badge-danger navbar-badge">15</span>
->>>>>>> b971d57bf25c855fdbe7c2523b262fee9e7e0290
                </a>
                      <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                   <a href="#" class="dropdown-item">
@@ -176,7 +147,7 @@
       </nav>
       <!-- /.navbar -->
       <!-- Main Sidebar Container -->
-      <aside class="main-sidebar elevation-4 sidebar-light-pink ">
+      <aside class="main-sidebar elevation-4 sidebar-light-pink">
          <!-- Brand Logo -->
          <a href="index3.html" class="brand-link">
          <img
@@ -279,7 +250,7 @@
                         </p>
                      </router-link>
                   </li>
-                  <li class="nav-item">
+                   <li class="nav-item">
                      <router-link :to="`/${$i18n.locale}/machine`" active-class="active"   class="nav-link">
                         <i class="nav-icon fas fa-first-aid"></i>
                         <p>
@@ -331,26 +302,20 @@
      name: 'app',
      data() {
        return {
-<<<<<<< HEAD
-         menuOpen       : false,
-         lang           : localStorage.getItem('lang')||'en',
-         username_login : ""
-=======
          menuOpen: false,
          lang:localStorage.getItem('lang')||'en',
          fullname: "",
          flag:"",
          flag_name:localStorage.getItem('lang')||'en'.toUpperCase()
->>>>>>> b971d57bf25c855fdbe7c2523b262fee9e7e0290
        }
      },
      created(){
       this.getCurentLang()
      },
      methods: {
-       getUsername(){
-         this.username_login= this.$session.exists()?this.username_login=this.$session.get('username'):""
-         return this.username_login
+       getFullName(){
+         this.fullname= this.$session.exists()?this.fullname=this.$session.get('name'):""
+         return this.fullname
        },
        getCurentLang(){
            let lang=localStorage.getItem('lang')||'en'
