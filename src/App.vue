@@ -13,19 +13,16 @@
          <!-- Right navbar links -->
          <ul class="navbar-nav ml-auto">
             <!-- Messages Dropdown Menu -->
-            <li class="nav-item">
-               <a class="nav-link"  href="#" role="button">
-                  <select class="form-control"  v-model="lang" @change="handleChange($event)">
-                     <option value="en"> Englist</option>
-                     <option value="th"> Thai</option>
-                  </select>
-               </a>
-            </li>
+
+          <select class="form-control"  v-model="lang" @change="handleChange($event)">
+              <option style="background-image:url('/dist/img/flag/flag_en.png');" value="en"> Englist</option>
+              <option value="th"> Thai</option>                
+          </select> 
 
             <!-- Notifications Dropdown Menu -->
             <li class="nav-item dropdown">
                <a class="nav-link" data-toggle="dropdown" href="#">
-             <i class="far fa-bell fa-2x"></i>
+             <i class="far fa-bell fa-lg"></i>
                <span class="badge badge-warning navbar-badge">15</span>
                </a>
                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
@@ -53,13 +50,13 @@
             </li>
             <li class="nav-item">
                <a class="nav-link" data-widget="fullscreen" href="#" role="button">
-               <i class="fas fa-expand-arrows-alt fa-2x"></i>
+               <i class="fas fa-expand-arrows-alt fa-lg"></i>
                </a>
             </li>
               <li class="nav-item dropdown">
                <a class="nav-link" data-toggle="dropdown" href="#">
                 <div class="user-panel pb-3 mb-3 d-flex">
-                  <span class="mt-1">{{getFullName()}} </span>
+                  <span class="mt-1">{{getUsername()}} </span>
                   <div class="images">
                         <img src="/dist/img/avatar2.png" alt="User Avatar" class="img-size-50 img-circle mr-3"/>
                       </div>
@@ -147,7 +144,7 @@
       </nav>
       <!-- /.navbar -->
       <!-- Main Sidebar Container -->
-      <aside class="main-sidebar elevation-4 sidebar-light-pink">
+      <aside class="main-sidebar elevation-4 sidebar-light-pink ">
          <!-- Brand Logo -->
          <a href="index3.html" class="brand-link">
          <img
@@ -242,6 +239,14 @@
                         </p>
                      </router-link>
                   </li>
+                  <li class="nav-item">
+                     <router-link :to="`/${$i18n.locale}/machine`" active-class="active"   class="nav-link">
+                        <i class="nav-icon fas fa-first-aid"></i>
+                        <p>
+                           Machine
+                        </p>
+                  </router-link>
+                  </li>
                </ul>
             </nav>
             <!-- /.sidebar-menu -->
@@ -286,15 +291,15 @@
      name: 'app',
      data() {
        return {
-         menuOpen: false,
-         lang:localStorage.getItem('lang')||'en',
-         fullname: ""
+         menuOpen       : false,
+         lang           : localStorage.getItem('lang')||'en',
+         username_login : ""
        }
      },
      methods: {
-       getFullName(){
-         this.fullname= this.$session.exists()?this.fullname=this.$session.get('name'):""
-         return this.fullname
+       getUsername(){
+         this.username_login= this.$session.exists()?this.username_login=this.$session.get('username'):""
+         return this.username_login
        },
        toggleMenu() {
          this.menuOpen = !this.menuOpen
