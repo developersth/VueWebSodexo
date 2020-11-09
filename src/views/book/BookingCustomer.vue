@@ -1,17 +1,17 @@
 <template>
-  <div class="Booking">
+  <div class="BookingCustomer">
     <!-- Content Header (Page header) -->
     <div class="content-header">
       <div class="container-fluid">
         <div class="row mb-12">
           <div class="col-sm-6">
-            <h1>Booking</h1>
+            <h1>Booking Customer</h1>
           </div>
           <!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Booking</li>
+              <li class="breadcrumb-item active">Booking Customer</li>
             </ol>
           </div>
           <!-- /.col -->
@@ -86,44 +86,7 @@
                 <div class="row">
                   <div class="col-md-12">
                     <div class="row">
-                      <div class="form-group col-sm-4 col-md-3 padding-small">
-                        <label>Status</label>
-                        <select id="booking_status" class="form-control">
-                          <option value="">===All Jobs===</option>
-                          <option value="CB">Create Booking</option>
-                          <option value="UN">Unassigned</option>
-                          <option value="AS">Assigned</option>
-                          <option value="AC">Accepted</option>
-                          <option value="ST">Start Job</option>
-                          <option value="CL">Cancle Job</option>
-                          <option value="CP">Completed</option>
-                        </select>
-                      </div>
-                      <div class="form-group col-sm-4 col-md-3 padding-small">
-                        <label>From</label>
-                        <div class="input-group date">
-                          <date-picker
-                            lang="en"
-                            type="date"
-                            v-model="start_date"
-                            format="DD-MM-YYYY"
-                          ></date-picker>
-                        </div>
-                      </div>
-                      <div class="form-group col-sm-4 col-md-3 padding-small">
-                        <label>To</label>
-                        <div class="input-group date">
-                          <div class="input-group date">
-                            <date-picker
-                              lang="en"
-                              type="date"
-                              v-model="end_date"
-                              format="DD-MM-YYYY"
-                            ></date-picker>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="form-group col-sm-4 col-md-3 padding-small">
+                      <div class="form-group col-sm-6 col-md-4 padding-small">
                         <label>Message</label>
                         <div class="input-group">
                           <input
@@ -152,11 +115,10 @@
                       <table class="table table-hover">
                         <thead class="bg-primary">
                           <tr>
-                            <th scope="col">Book No</th>
+                            <th scope="col">#</th>
+                            <th scope="col">Book No.</th>
                             <th scope="col">Reserve Date</th>
                             <th scope="col">Title</th>
-                            <th scope="col">Driver</th>
-                            <th scope="col">Mobile Team</th>
                             <th scope="col">Status</th>
                             <th scope="col">#</th>
                           </tr>
@@ -169,6 +131,7 @@
                             v-for="(item, index) in booking_item"
                             v-bind:key="index"
                           >
+                            <td>{{ index+1 }}</td>
                             <td>{{ item.book_id }}</td>
                             <td>
                               {{
@@ -176,17 +139,15 @@
                               }}
                             </td>
                             <td>{{ item.job_title }}</td>
-                            <td>{{ item.driver_name }}</td>
-                            <td>{{ item.mobile_name }}</td>
                             <td>
                               <label class="badge bg-success">{{
                                 item.status_name
                               }}</label>
                             </td>
                             <td class="text-center">
-                              <button class="btn btn-info btn-sm" @click="edit_modal(item.book_id)">Edit</button>
+                              <button class="btn btn-info btn-sm" @click="edit_modal(item.book_id)">แก้ไข</button>
                               <button class="btn btn-danger btn-sm ml-2" @click="delete_data(item.book_id)">
-                                Delete
+                                ยกเลิก
                               </button>
                             </td>
                           </tr>
@@ -196,15 +157,6 @@
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-          <div class="col-md-12">
-            <!-- general form elements -->
-            <div class="card card-outline card-success">
-              <div class="card-header text-center">
-                <a href="#" class="h3"><b>Map View</b></a>
-              </div>
-              <div class="card-body"></div>
             </div>
           </div>
         </div>
@@ -292,63 +244,6 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-sm-6">
-            <!-- text input -->
-            <div class="form-group" data-select2-id="47">
-              <label>{{ $t("booking.machine") }}</label>
-              <div class="input-group mb-3">
-                <input
-                  type="text"
-                  class="form-control"
-                  v-model="form.machine_id"
-                  :placeholder="$t('booking.machine')"
-                  readonly
-                />
-                <div class="input-group-append">
-                  <button
-                    class="btn btn-primary"
-                    @click.prevent="showModalMachine"
-                  >
-                    <i class="fas fa-search"></i>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm-6">
-            <!-- text input -->
-            <div class="form-group">
-              <label>{{ $t("booking.assing_to") }}</label>
-              <select class="form-control" v-model="form.driver_id">
-                <option value="0">=== Select Driver ===</option>
-                <option
-                  v-for="(items, index) in driver_item"
-                  v-bind:key="index"
-                  :value="items._id"
-                >
-                  {{ items.name }}
-                </option>
-              </select>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-sm-6">
-            <!-- text input -->
-            <div class="form-group">
-              <label>{{ $t("booking.assing_to_mobile") }}</label>
-              <select class="form-control" v-model="form.mobile_id">
-                <option value="0">=== Select Mobile Team ===</option>
-                <option
-                  v-for="(items, index) in mobile_item"
-                  v-bind:key="index"
-                  :value="items._id"
-                >
-                  {{ items.name }}
-                </option>
-              </select>
-            </div>
-          </div>
           <div class="col-sm-6">
             <!-- text input -->
             <div class="form-group">
@@ -516,6 +411,7 @@ export default {
       hospital_item: {},
       booking_item: [],
       mobile_item: [],
+      cus_id:"",
       form: {
         machine_id: "",
         driver_id: "",
@@ -547,6 +443,10 @@ export default {
     this.getAllBooking();
   },
   methods: {
+    getCusID(){
+         this.cus_id= this.$session.exists()?this.cus_id=this.$session.get('user_id'):""
+         return this.cus_id
+    },
     add_modal() {
       this.action = "A";
       this.resetModal()
@@ -594,13 +494,10 @@ export default {
     },
     async getAllBooking() {
       const body = {
-        status: this.status,
-        start_date: util.format_date(this.start_date),
-        end_date: util.format_date(this.end_date),
         keyword: this.keyword,
         lang: localStorage.getItem("lang") || "en",
       };
-      await service.getAllBooking(body).then((response) => {
+      await service.getAllBookingCustomer(this.getCusID(),body).then((response) => {
         this.booking_item = response;
       });
     },
@@ -770,10 +667,6 @@ export default {
       }
       if (!this.form.reservation_time_start)
         this.validateNames.push({ message: "กรุณากรอก เวลาเริ่มจองด้วยครับ!" });
-      if (!this.form.machine_id)
-        this.validateNames.push({
-          message: "กรุณากรอก เลือกเครื่องที่ต้องการจองด้วยครับ!",
-        });
       if (!this.form.reservation_time_end)
         this.validateNames.push({
           message: "กรุณากรอก เวลาสิ้นสุดการจองด้วยครับ!",
@@ -826,12 +719,11 @@ export default {
       this.form.contact_person = "";
       this.form.contact_mobile = "";
       this.form.detail = "";
+      this.cus_id="";
     },
     async booking_reserve() {
       const body = {
         machine_id: this.form.machine_id,
-        driver_id: this.form.driver_id,
-        mobile_id: this.form.mobile_id,
         job_title: this.form.job_title,
         location: this.form.location,
         hospital_id: this.form.hospital_id,
@@ -842,11 +734,12 @@ export default {
         reservation_date: util.format_date(this.form.reservation_date),
         reservation_time_start: util.format_time(this.form.reservation_time_start),
         reservation_time_end: util.format_time(this.form.reservation_time_end),
-        reservation_by: this.$session.get("name"),
-        update_by: "test",
+        reservation_by: this.$session.exists()?this.$session.get('name'):"",
+        update_by: this.$session.exists()?this.$session.get('name'):"",
+        cus_id:this.getCusID()
       };
       await service
-        .booking_reserve(body)
+        .booking_reserve_bycustomer(body)
         .then((res) => {
           if (res.success) {
             this.$swal({
