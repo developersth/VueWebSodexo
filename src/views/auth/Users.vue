@@ -86,8 +86,8 @@
                                           <td v-if="item.status"><label class="badge bg-success">ใช้งาน</label></td>
                                           <td v-else><label class="badge bg-danger">หยุดใช้งาน</label></td>
                                           <td class="text-center" style="width:150px;">
-                                             <button class="btn btn-info btn-sm" @click="editModal(item._id)"><i class="fas fa-edit"></i></button>
-                                             <button class="btn btn-danger btn-sm ml-2" @click="delete_data(item._id)"><i class="fas fa-user-times"></i></button>
+                                             <button v-if="getUser_ID()==1" class="btn btn-info btn-sm" @click="editModal(item._id)"><i class="fas fa-edit"></i></button>
+                                             <button v-if="item._id!==1" class="btn btn-danger btn-sm ml-2" @click="delete_data(item._id)"><i class="fas fa-user-times"></i></button>
                                           </td>
                                        </tr>
                                     </tbody>
@@ -211,6 +211,9 @@
        this.getUserRole()
      },
      methods: {
+      getUser_ID(){
+         return  this.$session.exists()?this.$session.get('user_id'):""
+       },
        showPassword(){
           this.passwordType= this.passwordType==="password"?"text":"password"
        },

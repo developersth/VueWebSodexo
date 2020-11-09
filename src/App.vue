@@ -137,7 +137,7 @@
                   <i class="fas fa-user-circle fa-lg"></i> Profile 
                   </a>
                   <div class="dropdown-divider"></div>
-                  <a href="#" @click="handleChange('th')" class="dropdown-item">
+                  <a href="#" @click="logout()" class="dropdown-item">
                    <i class="fas fa-power-off fa-lg"></i> Logout
                   </a>
                
@@ -313,6 +313,10 @@
       this.getCurentLang()
      },
      methods: {
+      logout: function () {
+         this.$session.destroy()
+         this.$router.push('/')
+       },
        getFullName(){
          this.fullname= this.$session.exists()?this.fullname=this.$session.get('name'):""
          return this.fullname

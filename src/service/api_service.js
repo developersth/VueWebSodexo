@@ -45,8 +45,12 @@ class apiService extends api {
     const { data } = await this.create(env.baseURL+"booking", body);
     return data;
   }
-  async booking_reserve_bycustomer(body) {
-    const { data } = await this.create(env.baseURL+"booking/create-booking-bycustomer", body);
+  async update_booking_customer(id,body) {
+    const { data } = await this.create(env.baseURL+"booking/edit-booking-customer/"+id, body);
+    return data;
+  }
+  async booking_reserve_customer(body) {
+    const { data } = await this.create(env.baseURL+"booking/create-booking-customer", body);
     return data;
   }
   async update_booking(id,body) {
@@ -61,7 +65,10 @@ class apiService extends api {
     const { data } = await this.get(env.baseURL+"booking/find-booking-customer/"+cus_id, body);
     return data;
   }
-
+  async cancel_booking_customer(id) {
+    const { data } = await this.update(env.baseURL+"booking/cancel-booking-customer/"+id);
+    return data;
+  }
   async findMachineBooking(body) {  //ค้นหาเครื่องที่ว่าง
     const { data } = await this.get(env.baseURL+"booking/find-machine-booking", body);
     return data;

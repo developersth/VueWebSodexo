@@ -86,8 +86,11 @@
                 <div class="row">
                   <div class="col-md-12">
                     <div class="row">
-                      <div class="form-group col-sm-6 col-md-4 padding-small">
-                        <label>Message</label>
+                      <div class="col-md-8">
+                      </div>
+                    <div class="col-md-4">
+                      <div style="padding-right: 1px;" class="form-group">
+                       <label>Message</label>
                         <div class="input-group">
                           <input
                             class="form-control"
@@ -106,6 +109,7 @@
                               <i class="fa fa-search"></i> ค้นหา
                             </button>
                           </span>
+                        </div>
                         </div>
                       </div>
                     </div>
@@ -140,13 +144,16 @@
                             </td>
                             <td>{{ item.job_title }}</td>
                             <td>
-                              <label class="badge bg-success">{{
-                                item.status_name
-                              }}</label>
+                              <label v-if="item.cancel_status==1" class="badge bg-danger">
+                                {{item.status_name}}
+                              </label>
+                             <label v-else class="badge bg-success">
+                                {{item.status_name}}
+                              </label>
                             </td>
                             <td class="text-center">
                               <button class="btn btn-info btn-sm" @click="edit_modal(item.book_id)">แก้ไข</button>
-                              <button class="btn btn-danger btn-sm ml-2" @click="delete_data(item.book_id)">
+                              <button class="btn btn-danger btn-sm ml-2" @click="cancel_data(item.book_id)">
                                 ยกเลิก
                               </button>
                             </td>
@@ -649,8 +656,9 @@ export default {
         return;
       }
       // Push the name to submitted names
-      if (this.action==='A')
+      if (this.action==='A'){
         this.booking_reserve();
+      }
       else 
         this.booking_edit();
     },
@@ -739,7 +747,7 @@ export default {
         cus_id:this.getCusID()
       };
       await service
-        .booking_reserve_bycustomer(body)
+        .booking_reserve_customer(body)
         .then((res) => {
           if (res.success) {
             this.$swal({
@@ -779,8 +787,6 @@ export default {
       async booking_edit(){
       const body = {
         machine_id: this.form.machine_id,
-        driver_id: this.form.driver_id,
-        mobile_id: this.form.mobile_id,
         job_title: this.form.job_title,
         location: this.form.location,
         hospital_id: this.form.hospital_id,
@@ -791,10 +797,11 @@ export default {
         reservation_date: util.format_date(this.form.reservation_date),
         reservation_time_start: util.format_time(this.form.reservation_time_start),
         reservation_time_end: util.format_time(this.form.reservation_time_end),
-        reservation_by: this.$session.get("name"),
-        update_by: "test",
+        reservation_by: this.$session.exists()?this.$session.get('name'):"",
+        update_by: this.$session.exists()?this.$session.get('name'):"",
+        cus_id:this.getCusID()
       };
-       await service.update_booking(this.book_id,body)
+       await service.update_booking_customer(this.book_id,body)
          .then((res) => {
           if (res.success) {
             this.$swal({
@@ -842,10 +849,10 @@ export default {
          this.form.location ="";
       }
     },
-   async delete_data(id){
+   async cancel_data(id){
      this.$swal({
         title: 'Are you sure?',
-        text: "คุณต้องการลบข้อมูลหรือไม่!",
+        text: "คุณต้องการยกเลิก Booking No : "+id+" หรือไม่?",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -853,7 +860,7 @@ export default {
         confirmButtonText: 'Yes, delete it!'
       }).then((result) => {
         if (result.isConfirmed) {
-             service.delete_booking(id)
+             service.cancel_booking_customer(id)
             .then((res) => {
               if (res.success) {
                  this.$swal('Deleted!',res.message,'success')
