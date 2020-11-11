@@ -13,6 +13,8 @@ import 'vue2-datepicker/index.css';
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 /* import 'bootstrap/dist/css/bootstrap.css' */
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import * as VueGoogleMaps from 'vue2-google-maps'
+const env = require('@/config/env');
 Vue.use(require('vue-moment'));
 // Install BootstrapVue
 Vue.use(BootstrapVue)
@@ -38,7 +40,18 @@ router.beforeEach((to, from, next) => {
   i18n.locale = language
   next()
 })
-
+Vue.use(VueGoogleMaps, {
+  load: {
+    key: env.google_api_key,
+    libraries: 'places', // This is required if you use the Autocomplete plugin
+    // OR: libraries: 'places,drawing'
+    // OR: libraries: 'places,drawing,visualization'
+    // (as you require)
+ 
+    //// If you want to set the version, you can do so:
+    // v: '3.26',
+  }
+});
 new Vue({
   router,
   i18n,

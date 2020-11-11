@@ -4,11 +4,8 @@
     <div class="content-header">
       <div class="container-fluid">
         <div class="row mb-12">
-          <div class="col-sm-6">
-            <h1>Booking</h1>
-          </div>
           <!-- /.col -->
-          <div class="col-sm-6">
+          <div class="col-sm-12">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
               <li class="breadcrumb-item active">Booking</li>
@@ -47,16 +44,6 @@
                   </div>
                   <div class="col text-right">
                     <div class="card-tools">
-                      <button
-                        type="button"
-                        class="btn btn-tool"
-                        @click="getAllBooking()"
-                        data-card-widget="card-refresh"
-                        data-source-selector="#card-refresh-content"
-                        data-load-on-init="false"
-                      >
-                        <i class="fas fa-sync-alt"></i>
-                      </button>
                       <button
                         type="button"
                         class="btn btn-tool"
@@ -202,9 +189,13 @@
             <!-- general form elements -->
             <div class="card card-outline card-success">
               <div class="card-header text-center">
-                <a href="#" class="h3"><b>Map View</b></a>
+                <a href="#" class="h5"><b>Map View</b></a>
               </div>
-              <div class="card-body"></div>
+              <div class="card-body">
+                <GmapMap  :center="{lat:13.7622354, lng:100.5067183}" :zoom="13" map-type-id="terrain" style="width: 100%; height: 800px;">
+              
+      </GmapMap>
+              </div>
             </div>
           </div>
         </div>

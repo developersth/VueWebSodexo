@@ -87,30 +87,17 @@
                   <div class="col-md-12">
                     <div class="row">
                       <div class="col-md-8">
+                    <div class="input-group row">
+                    <label  class="col-sm-1 col-form-label">Message</label>
+                    <div class="col-sm-8">
+                      <div class="input-group mb-3">
+                       <input class="form-control" type="text" v-model="keyword" placeholder="ค้นหา..." autofocus="true" value=""/>
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-primary" @click="getAllBooking()"><i class="fa fa-search"> ค้นหา</i> </button>
+                      </span>
                       </div>
-                    <div class="col-md-4">
-                      <div style="padding-right: 1px;" class="form-group">
-                       <label>Message</label>
-                        <div class="input-group">
-                          <input
-                            class="form-control"
-                            type="text"
-                            v-model="keyword"
-                            placeholder="ค้นหา..."
-                            autofocus="true"
-                            value=""
-                          />
-                          <span class="input-group-btn">
-                            <button
-                              type="button"
-                              class="btn btn-primary"
-                              @click="getAllBooking()"
-                            >
-                              <i class="fa fa-search"></i> ค้นหา
-                            </button>
-                          </span>
-                        </div>
-                        </div>
+                    </div>
+                  </div>
                       </div>
                     </div>
                   </div>
