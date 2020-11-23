@@ -217,6 +217,15 @@
                         </p>
                      </router-link>
                   </li>
+                    <li class="nav-item">
+                     <router-link :to="`/${$i18n.locale}/mapview`" active-class="active"  class="nav-link">
+                        <i class="nav-icon fas fa-map"></i>
+                        <p>
+                           MapView
+                           <span class="right badge badge-danger">5</span>
+                        </p>
+                     </router-link>
+                  </li>
                   <li class="nav-item">
                      <router-link :to="`/${$i18n.locale}/booking`" active-class="active"  class="nav-link">
                         <i class="nav-icon fas fa-book"></i>

@@ -22,7 +22,8 @@ const routes = [
       {path: 'hospital',name: 'hospital',component: () => import('../views/settings/Hospital.vue')},
       {path: 'users',name: 'users',component: () => import('../views/auth/Users.vue')},
       {path: 'machine',name: 'machine',component: () => import('../views/settings/Machine.vue')},
-      {path: 'booking-customer',name: 'booking-customer',component: () => import('../views/book/BookingCustomer.vue')}
+      {path: 'booking-customer',name: 'booking-customer',component: () => import('../views/book/BookingCustomer.vue')},
+      {path: 'mapview',name: 'mapview',component: () => import('../views/MapView.vue')},
     ]
   }
 ]
