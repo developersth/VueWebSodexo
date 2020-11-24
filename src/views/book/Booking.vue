@@ -192,9 +192,7 @@
                 <a href="#" class="h5"><b>Map View</b></a>
               </div>
               <div class="card-body">
-                <GmapMap  :center="{lat:13.7622354, lng:100.5067183}" :zoom="13" map-type-id="terrain" style="width: 100%; height: 800px;">
-              
-      </GmapMap>
+                <GmapMap  :center="{lat:13.7622354, lng:100.5067183}" :zoom="13" map-type-id="terrain" style="width: 100%; height: 800px;"></GmapMap>
               </div>
             </div>
           </div>
