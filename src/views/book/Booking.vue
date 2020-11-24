@@ -134,13 +134,13 @@
                       </div>
                     </div>
                   </div>
-                  <div class="col-md-12">
-                    <div style="white-space: nowrap; overflow-x: auto">
-                      <table class="table table-hover">
+                  <div class="col-12">
+                  <div class="card">
+                    <div class="card-body p-0" style="white-space: nowrap; overflow-x: auto">
+                      <table class="table table-hover table-striped  projects">
                         <thead class="bg-primary">
                           <tr>
                             <th scope="col">Book No</th>
-                            <th scope="col">Reserve Date</th>
                             <th scope="col">Title</th>
                             <th scope="col">Driver</th>
                             <th scope="col">Mobile Team</th>
@@ -157,30 +157,26 @@
                             v-bind:key="index"
                           >
                             <td>{{ item.book_id }}</td>
-                            <td>
-                              {{
-                                item.reservation_date + " " + item.reserv_time
-                              }}
-                            </td>
-                            <td>{{ item.job_title }}</td>
+                            <td class="project_progress">{{ item.job_title }}</td>
                             <td>{{ item.driver_name }}</td>
                             <td>{{ item.mobile_name }}</td>
-                            <td>
+                            <td class="project-state">
                               <label class="badge bg-success">{{
                                 item.status_name
                               }}</label>
                             </td>
-                            <td class="text-center">
-                              <button class="btn btn-info btn-sm" @click="edit_modal(item.book_id)">Edit</button>
+                            <td class="project-actions text-right">
+                              <button class="btn btn-info btn-sm" @click="edit_modal(item.book_id)"><i class="fas fa-pencil-alt"> Edit</i></button>
                               <button class="btn btn-danger btn-sm ml-2" @click="delete_data(item.book_id)">
-                                Delete
+                                <i class="fas fa-trash"> Delete</i>
                               </button>
                             </td>
                           </tr>
                         </tbody>
                       </table>
                     </div>
-                  </div>
+                    </div>
+                    </div>
                 </div>
               </div>
             </div>
@@ -440,6 +436,7 @@
     </b-modal>
 
     <b-modal id="modal-machine" size="lg" title="Machine List">
+       <div style="white-space: nowrap; overflow-x: auto">
       <table class="table table-hover">
         <tbody>
           <tr v-if="machine_item.length === 0">
@@ -480,6 +477,7 @@
           </tr>
         </tbody>
       </table>
+     </div>
     </b-modal>
   </div>
 </template>
