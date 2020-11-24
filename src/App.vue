@@ -1,7 +1,7 @@
 <template>
    <div class="wrapper">
       <!-- Navbar -->
-      <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+      <nav class="main-header navbar  navbar-expand navbar-white navbar-light">
          <!-- Left navbar links -->
          <ul class="navbar-nav">
             <li class="nav-item">
@@ -274,7 +274,7 @@
          <!-- /.sidebar -->
       </aside>
       <!-- Content Wrapper. Contains page content -->
-      <div class="content-wrapper">
+      <div class="content-wrapper" >
          <router-view />
          <!-- /.content -->
       </div>
@@ -289,7 +289,7 @@
       </aside>
       <!-- /.control-sidebar -->
       <!-- Main Footer -->
-      <footer class="main-footer">
+      <footer class="main-footer fixed-bottom">
          <!-- To the right -->
          <div class="float-right d-none d-sm-inline">Anything you want </div>
          <!-- Default to the left -->
@@ -297,7 +297,6 @@
             >Copyright &copy; 2020
          <a href="http://www.techsoul.co.th/" target="blank">techsoul.co.th</a>.</strong
             >
-         All rights reserved.
       </footer>
       <!-- Control Sidebar -->
       <aside class="control-sidebar control-sidebar-dark">
