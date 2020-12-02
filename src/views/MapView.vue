@@ -3,12 +3,12 @@
     <div class="content">
        <div class="container-fluid">
         <div class="row">
-            <div class="col-md-4 col-lg-4 nopadding">
+            <div class="col-md-4 nopadding">
             <div class="card  card-danger">
            <div class="card-header">
                         <div class="form-row">
                            <div class="col">
-                              <a href="#" class="h6"><b>MapView</b></a>
+                              <a href="#" class="h6"><b>BookingManage</b></a>
                            </div>
                            <div class="col text-center">
                            </div>
@@ -19,9 +19,6 @@
                                  </button>
                                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                  <i class="fas fa-minus"></i>
-                                 </button>
-                                 <button type="button" class="btn btn-tool" data-card-widget="remove">
-                                 <i class="fas fa-times"></i>
                                  </button>
                               </div>
                            </div>
@@ -44,7 +41,7 @@
                                 <div class="form-group col-sm-12 col-md-12">
                                   <div class="input-group">
                                     <span class="input-group-btn">
-                                      <button type="button" class="btn btn-success">
+                                      <button type="button" class="btn btn-success" @click="is_show_booking=true">
                                         <i class="fa fa-plus">Add</i> 
                                       </button>
                                     </span>
@@ -61,7 +58,7 @@
                                   </div>
                                 </div>
                               </div>
-                                 <div style="position: relative; height: 67vh; overflow: auto;">
+                                 <div class="scrollbar-morpheus-den" style="position: relative; height: 67vh; overflow: auto;">
                               <table class="table">
                                     <tbody>
                                       <tr v-for="(item,index) in users_items" :key="index">
@@ -90,12 +87,42 @@
                      </div>
                      </div>
                 </div>
-         <div class="col-md-8 col-lg-8 nopadding" >
+            <div v-if="is_show_booking" class="col-md-4 nopadding">
+            <div class="card  card-info">
+              <div class="card-header">
+                      <div class="form-row">
+                           <div class="col">
+                              <a href="#" class="h6"><b>Add Booking</b></a>
+                           </div>
+                           <div class="col text-center">
+                           </div>
+                           <div class="col text-right">
+                              <div class="card-tools">
+                                 <button type="button" class="btn btn-tool" data-card-widget="maximize">
+                                 <i class="fas fa-expand"></i>
+                                 </button>
+                                 <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                 <i class="fas fa-minus"></i>
+                                 </button>
+                                  <button type="button" class="btn btn-tool" @click="closePanelBooking()">
+                                  <i class="fas fa-times"></i>
+                                </button>
+                              </div>
+                           </div>
+                  </div>
+              </div>
+                <div class="card-body">
+                  <div class="row">
+                      <div class="col-md-12">
+                      </div>
+                  </div>
+                </div>
+            </div>
+            </div>
+         <div class="col-md-4 nopadding" >
            <div class="custom-gmap-class">
                   <GmapMap  :center="{lat:13.7622354, lng:100.5067183}" :zoom="13" map-type-id="terrain" style="width:100%;height:87vh"></GmapMap>
            </div>
-
-
            </div>
       </div>
     </div>
@@ -109,13 +136,19 @@
 export default {
      data() {
        return {
-         users_items:[]
+         is_show_booking:false,
+         users_items:[],
+         keyword:""
        }
      },
      created(){
        this.getAllUserSearch();
      },
      methods:{
+       closePanelBooking(){
+         this.is_show_booking=false
+       },
+
          async getAllUserSearch(){
            await service.getAllUserSearch().then((res) => {
               this.users_items=res
