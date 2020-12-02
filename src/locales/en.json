@@ -30,9 +30,9 @@
     "contact_person": "Contact Person",
     "contact_mobile": "Contact Mobile",
     "note":"Note",
-    "reservation_date": "Reservation Date",
-    "reservation_time_start":"Reservation time start",
-    "reservation_time_end": "Reservation time end"
+    "reservation_date": "Reserv Date",
+    "reservation_time_start":"Time  start",
+    "reservation_time_end": "Time  end"
   },
   "users": {
     "title": "User Detail",

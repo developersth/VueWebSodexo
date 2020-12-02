@@ -3,12 +3,12 @@
     <div class="content">
        <div class="container-fluid">
         <div class="row">
-            <div class="col-md-4 nopadding">
+            <div class="col-md-3 nopadding">
             <div class="card  card-danger">
            <div class="card-header">
                         <div class="form-row">
                            <div class="col">
-                              <a href="#" class="h6"><b>BookingManage</b></a>
+                              <a href="#" class="h6"><b>Booking</b></a>
                            </div>
                            <div class="col text-center">
                            </div>
@@ -52,25 +52,25 @@
                                         class="btn btn-primary"
                                         @click="getAllBooking()"
                                       >
-                                        <i class="fa fa-search"></i> ค้นหา
+                                        <i class="fa fa-search"></i>ค้นหา
                                       </button>
                                     </span>
                                   </div>
                                 </div>
                               </div>
-                                 <div class="scrollbar-morpheus-den" style="position: relative; height: 67vh; overflow: auto;">
+                                 <div class="scrollbar scrollbar-indigo bordered-indigo thin" style="position: relative; height: 67vh; overflow: auto;">
                               <table class="table">
                                     <tbody>
                                       <tr v-for="(item,index) in users_items" :key="index">
                                         <th scope="row">
-                                          <img src="/dist/img/avatar5.png" width="80" height="80" class="rounded-circle" alt="Cinque Terre">
+                                          <img src="/dist/img/avatar5.png" width="60" height="60" class="rounded-circle" alt="Cinque Terre">
                                         </th>
                                         <td>
-                                          <div class="h5">{{item.name}} </div>
-                                          <div class="text-success"><i class="far fa-check-circle"> Online</i></div>
+                                          <div class="text-warning">{{item.name}} </div>
+                                          <div class="text-success"><i class="far fa-check-circle fa-xs"> Online</i></div>
                                          <div class="form-inline">
-                                            <button class="btn btn-outline-info"><i class="fas fa-business-time"> Assign Job</i></button>
-                                           <button class="btn btn-outline-primary"><i class="fas fa-user-circle"> Profile</i></button>
+                                            <button class="btn btn-outline-info btn-xs"><i class="fas fa-business-time"> Assign Job</i></button>
+                                           <button class="btn btn-outline-primary btn-xs"><i class="fas fa-user-circle"> Profile</i></button>
                                          </div>
                                         </td>
                                       </tr>
@@ -87,12 +87,12 @@
                      </div>
                      </div>
                 </div>
-            <div v-if="is_show_booking" class="col-md-4 nopadding">
+            <div v-if="is_show_booking" class="col-md-3 nopadding">
             <div class="card  card-info">
               <div class="card-header">
                       <div class="form-row">
                            <div class="col">
-                              <a href="#" class="h6"><b>Add Booking</b></a>
+                              <a href="#" class="h6">AddBooking</a>
                            </div>
                            <div class="col text-center">
                            </div>
@@ -101,9 +101,6 @@
                                  <button type="button" class="btn btn-tool" data-card-widget="maximize">
                                  <i class="fas fa-expand"></i>
                                  </button>
-                                 <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                 <i class="fas fa-minus"></i>
-                                 </button>
                                   <button type="button" class="btn btn-tool" @click="closePanelBooking()">
                                   <i class="fas fa-times"></i>
                                 </button>
@@ -111,15 +108,273 @@
                            </div>
                   </div>
               </div>
+               <div class="scrollbar scrollbar-indigo bordered-indigo thin" style="position: relative; height: 80vh; overflow-y: auto">
                 <div class="card-body">
-                  <div class="row">
-                      <div class="col-md-12">
-                      </div>
-                  </div>
+                          <form>
+                            <div class="row">
+                              <div class="col-md-12">
+                                <!-- text input -->
+                                <div class="form-group">
+                                  <label>{{ $t("booking.reservation_date") }} :</label>
+                                  <div class="input-group date">
+                                    <date-picker
+                                      lang="th"
+                                      type="date"
+                                      v-model="form.reservation_date"
+                                      format="DD-MM-YYYY"
+                                    ></date-picker>
+                                    <div
+                                      class="input-group-append"
+                                      data-target="#reservationdate"
+                                      data-toggle="datetimepicker"
+                                    ></div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-md-6">
+                                <div class="form-group">
+                                  <label>{{ $t("booking.reservation_time_start") }} :</label>
+                                  <div
+                                    class="input-group date"
+                                    id="timepicker"
+                                    data-target-input="nearest"
+                                  >
+                                    <date-picker
+                                      lang="en"
+                                      type="time"
+                                      v-model="form.reservation_time_start"
+                                      format="HH:mm"
+                                    ></date-picker>
+                                    <div
+                                      class="input-group-append"
+                                      data-target="#timepicker"
+                                      data-toggle="datetimepicker"
+                                    ></div>
+                                  </div>
+                                  <!-- /.input group -->
+                                </div>
+                              </div>
+                              <div class="col-md-6">
+                                <div class="form-group">
+                                  <label>{{ $t("booking.reservation_time_end") }} :</label>
+                                  <div
+                                    class="input-group date"
+                                    id="timepicker"
+                                    data-target-input="nearest"
+                                  >
+                                    <date-picker
+                                      lang="en"
+                                      type="time"
+                                      v-model="form.reservation_time_end"
+                                      format="HH:mm"
+                                    ></date-picker>
+                                    <div
+                                      class="input-group-append"
+                                      data-target="#timepicker"
+                                      data-toggle="datetimepicker"
+                                    ></div>
+                                  </div>
+                                  <!-- /.input group -->
+                                </div>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-md-12">
+                                <!-- text input -->
+                                <div class="form-group" data-select2-id="47">
+                                  <label>{{ $t("booking.machine") }}</label>
+                                  <div class="input-group mb-3">
+                                    <input
+                                      type="text"
+                                      class="form-control"
+                                      v-model="form.machine_id"
+                                      :placeholder="$t('booking.machine')"
+                                      readonly
+                                    />
+                                    <div class="input-group-append">
+                                      <button
+                                        class="btn btn-primary"
+                                        @click.prevent="showModalMachine"
+                                      >
+                                        <i class="fas fa-search"></i>
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-sm-12">
+                                <!-- text input -->
+                                <div class="form-group">
+                                  <label>{{ $t("booking.assing_to") }}</label>
+                                  <select class="form-control" v-model="form.driver_id">
+                                    <option value="0">=== Select Driver ===</option>
+                                    <option
+                                      v-for="(items, index) in driver_item"
+                                      v-bind:key="index"
+                                      :value="items._id"
+                                    >
+                                      {{ items.name }}
+                                    </option>
+                                  </select>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-sm-12">
+                                <!-- text input -->
+                                <div class="form-group">
+                                  <label>{{ $t("booking.assing_to_mobile") }}</label>
+                               <div class="input-group">
+                                    <div class="input-group-prepend">
+                                      <span class="input-group-text">
+                                     <i class="fas fa-hospital-user"></i>
+                                      </span>
+                                    </div>
+                                  <select class="form-control" v-model="form.mobile_id">
+                                    <option value="0">=== Select Mobile Team ===</option>
+                                    <option
+                                      v-for="(items, index) in mobile_item"
+                                      v-bind:key="index"
+                                      :value="items._id"
+                                    >
+                                      {{ items.name }}
+                                    </option>
+                                  </select>
+                               </div>
+                                </div>
+                              </div>
+                              <div class="col-sm-12">
+                                <!-- text input -->
+                                <div class="form-group">
+                                  <label>{{ $t("booking.job_title") }}</label>
+                                    <div class="input-group">
+                                    <div class="input-group-prepend">
+                                      <span class="input-group-text">
+                                        <i class="fas fa-file-medical-alt"></i>
+                                      </span>
+                                    </div>
+                                  <select
+                                    id="booking_status"
+                                    v-model="form.job_title"
+                                    class="form-control"
+                                  >
+                                    <option value="Reserve Booking">Reserve Booking</option>
+                                  </select>
+                                    </div>
+                                </div>
+                              </div>
+                              <div class="col-sm-12">
+                                <!-- text input -->
+                                <div class="form-group">
+                                  <label>{{ $t("booking.location") }}</label>
+                                   <div class="input-group">
+                                    <div class="input-group-prepend">
+                                      <span class="input-group-text"
+                                        ><i class="fas fa-map"></i
+                                      ></span>
+                                    </div>
+                                  <input
+                                    type="text"
+                                    class="form-control"
+                                    v-model="form.location"
+                                    :placeholder="$t('booking.location')"
+                                  />
+                                   </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-sm-12">
+                                <!-- text input -->
+                                <div class="form-group">
+                                  <label>{{ $t("booking.hospital_name") }}</label>
+                                  <div class="input-group">
+                                    <div class="input-group-prepend">
+                                      <span class="input-group-text"
+                                        ><i class="fas fa-hospital"></i
+                                      ></span>
+                                    </div>
+                                  <select
+                                    class="form-control"
+                                    v-on:change="get_hospital_name()"
+                                    v-model="form.hospital_id"
+                                  >
+                                    <option value="">-- Select Hospital --</option>
+                                    <option
+                                      v-for="(items, index) in hospital_item"
+                                      v-bind:key="index"
+                                      :value="items._id"
+                                    >
+                                      {{ items.hospital_name }}
+                                    </option>
+                                  </select>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-sm-12">
+                                <!-- text input -->
+                                <div class="form-group">
+                                  <label>{{ $t("booking.contact_person") }}</label>
+                                    <div class="input-group">
+                                    <div class="input-group-prepend">
+                                      <span class="input-group-text"
+                                        ><i class="fas fa-user"></i
+                                      ></span>
+                                    </div>
+                                  <input
+                                    type="text"
+                                    class="form-control"
+                                    v-model="form.contact_person"
+                                    :placeholder="$t('booking.contact_person')"
+                                  />
+                                    </div>
+                                </div>
+                              </div>
+                              <div class="col-sm-12">
+                                <!-- text input -->
+                                <!-- phone mask -->
+                                <div class="form-group">
+                                  <label>{{ $t("booking.contact_mobile") }}</label>
+                                  <div class="input-group">
+                                    <div class="input-group-prepend">
+                                      <span class="input-group-text"
+                                        ><i class="fas fa-phone"></i
+                                      ></span>
+                                    </div>
+                                    <input
+                                      type="number"
+                                      class="form-control"
+                                      v-model="form.contact_mobile"
+                                      data-inputmask='"mask": "(999) 999-9999"'
+                                      data-mask
+                                    />
+                                  </div>
+                                  <!-- /.input group -->
+                                </div>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-sm-12">
+                                <!-- text input -->
+                                <div class="form-group">
+                                  <label>{{ $t("booking.note") }}</label>
+                                  <textarea
+                                    type="text"
+                                    class="form-control"
+                                    v-model="form.detail"
+                                    :placeholder="$t('booking.note')"
+                                  ></textarea>
+                                </div>
+                              </div>
+                            </div>
+                          </form>
+                       </div>
                 </div>
             </div>
             </div>
-         <div class="col-md-4 nopadding" >
+         <div   v-bind:class="activeClassBooking()">
            <div class="custom-gmap-class">
                   <GmapMap  :center="{lat:13.7622354, lng:100.5067183}" :zoom="13" map-type-id="terrain" style="width:100%;height:87vh"></GmapMap>
            </div>
@@ -138,17 +393,42 @@ export default {
        return {
          is_show_booking:false,
          users_items:[],
-         keyword:""
+         keyword:"",
+        form: {
+            machine_id: "",
+            driver_id: "",
+            mobile_id: "",
+            job_title: "Reserve Booking",
+            location: "",
+            hospital_id: "",
+            hospital_name: "",
+            contact_person: "",
+            contact_mobile: "",
+            detail: "",
+            reservation_date: new Date(),
+            reservation_time_start: "",
+            reservation_time_end: "",
+            reservation_by: "",
+            update_by: "",
+          },
        }
      },
      created(){
        this.getAllUserSearch();
      },
      methods:{
-       closePanelBooking(){
+      activeClassBooking(){
+        let vClass=''
+        if (this.is_show_booking) vClass='col-md-6 nopadding'
+        else vClass='col-md-9 nopadding'
+        return vClass
+      },
+      closePanelBooking(){
          this.is_show_booking=false
        },
-
+     showPanelBooking(){
+         this.is_show_booking=true
+       },
          async getAllUserSearch(){
            await service.getAllUserSearch().then((res) => {
               this.users_items=res
