@@ -202,22 +202,6 @@
                                   </div>
                                 </div>
                               </div>
-                              <div class="col-sm-12">
-                                <!-- text input -->
-                                <div class="form-group">
-                                  <label>{{ $t("booking.assing_to") }}</label>
-                                  <select class="form-control" v-model="form.driver_id">
-                                    <option value="0">=== Select Driver ===</option>
-                                    <option
-                                      v-for="(items, index) in driver_item"
-                                      v-bind:key="index"
-                                      :value="items._id"
-                                    >
-                                      {{ items.name }}
-                                    </option>
-                                  </select>
-                                </div>
-                              </div>
                             </div>
                             <div class="row">
                               <div class="col-sm-12">
