@@ -16,6 +16,8 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 import * as VueGoogleMaps from 'vue2-google-maps'
 const env = require('@/config/env');
 Vue.use(require('vue-moment'));
+import VueDataLoading from 'vue-data-loading'
+Vue.use(VueDataLoading);
 // Install BootstrapVue
 Vue.use(BootstrapVue)
 // Optionally install the BootstrapVue icon components plugin
