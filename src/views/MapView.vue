@@ -99,7 +99,7 @@
 
                                                    <div class="text-success"><i class="far fa-check-circle fa-xs"> {{item.status_name}}</i></div>
                                                    <div class="form-inline">
-                                                      <button class="btn btn-primary btn-xs"><i class="fas fa-pencil-alt"> Edit</i></button>|
+                                                      <button class="btn btn-primary btn-xs"><i class="fas fa-pencil-alt" @click="edit_panel(item.book_id)"> Edit</i></button>|
                                                       <button class="btn btn-info btn-xs"><i class="fas fa-user-circle"> View log</i></button>
                                                    </div>
                                                 </td>
@@ -120,7 +120,7 @@
                      <div class="card-header">
                         <div class="form-row">
                            <div class="col">
-                              <a href="#" class="h6">AddBooking</a>
+                              <a href="#" class="h6">{{getActionName}}Booking</a>
                            </div>
                            <div class="col text-center">
                            </div>
@@ -451,6 +451,7 @@
    export default {
      data() {
        return {
+         action: "A",
          isActive:false,
          is_show_booking:false,
          users_items:[],
@@ -459,6 +460,7 @@
          hospital_item:[],
          machine_item: {},
          booking_item:[],
+         book_id:'',
         form: {
             machine_id: "",
             mobile_id: "",
@@ -477,6 +479,14 @@
           },
        }
      },
+     computed:{
+      getActionName(){
+            if (this.action==='A')
+            return 'Add'
+            else
+            return 'Edit'
+         }
+      },
      created(){
        this.getAllUserSearch();
        this.getAllMobile();
@@ -530,6 +540,34 @@
             showConfirmButton: false,
             timer: 2000,
           });
+        });
+    },
+   async edit_panel(book_id) {
+      this.action = "E"
+      this.book_id=book_id
+      this.showPanelBooking()
+      this.getAll_hospital()
+      this.getAllMobile()
+        await service.getOne_booking(book_id)
+         .then((res) => {
+           //var reservation_date = new Date(res.reservation_date)
+           var reservation_time_start = new Date(res.reservation_date +' '+res.reservation_time_start)
+           var reservation_time_end = new Date(res.reservation_date +' '+res.reservation_time_end)
+
+           //this.form.reservation_date=reservation_date
+           this.form.reservation_time_start=reservation_time_start
+           this.form.reservation_time_end=reservation_time_end
+           this.form.machine_id=res.machine_id
+           this.form.mobile_id=res.mobile_id
+           this.form.location=res.location
+           this.form.hospital_id=res.hospital_id
+           this.form.contact_person=res.contact_person
+           this.form.contact_mobile=res.contact_mobile
+           this.form.detail=res.detail
+        })
+        .catch((e) => {
+          //console.log(e);
+          this.$swal({position: "top-end",icon: "warning",title: "warning",text: e,showConfirmButton: false,timer: 3000});
         });
     },
     handleSubmit() {
@@ -647,6 +685,7 @@
             this.getAllBooking();
             this.resetModal();
             this.isActive=false
+            this.closePanelBooking()
           } else {
             this.$swal({
               position: "top-end",

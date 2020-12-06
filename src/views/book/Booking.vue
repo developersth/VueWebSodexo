@@ -554,6 +554,7 @@ export default {
            var reservation_time_start = new Date(res.reservation_date +' '+res.reservation_time_start)
            var reservation_time_end = new Date(res.reservation_date +' '+res.reservation_time_end)
 
+      
            this.form.reservation_date=reservation_date
            this.form.reservation_time_start=reservation_time_start
            this.form.reservation_time_end=reservation_time_end
